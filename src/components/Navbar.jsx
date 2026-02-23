@@ -27,7 +27,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     <nav className={'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ' + (scrolled ? 'glass-nav backdrop-blur-xl shadow-sm' : 'bg-transparent')}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          <button onClick={() => handleNav('overview')} className="flex items-center gap-3 group">
+          <button onClick={() => handleNav('overview')} className="flex items-center gap-3 group flex-shrink-0 mr-3 xl:mr-5">
             <div className="w-9 h-9 rounded-xl overflow-hidden border border-surface-700/40 shadow-lg shadow-primary-500/10 bg-white/90">
               <img
                 src={(process.env.PUBLIC_URL || '') + '/apple-touch-icon.png'}
@@ -35,9 +35,9 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="hidden sm:flex flex-col items-start leading-tight">
-              <span className="text-heading font-semibold text-sm whitespace-nowrap">{CONFIG.name}</span>
-              <span className="text-surface-500 text-xs whitespace-nowrap mt-0.5">{CONFIG.title}</span>
+            <div className="hidden sm:flex flex-col items-start leading-tight min-w-0 max-w-[180px] xl:max-w-none">
+              <span className="text-heading font-semibold text-sm whitespace-nowrap overflow-hidden text-ellipsis">{CONFIG.name}</span>
+              <span className="hidden xl:block text-surface-500 text-xs whitespace-nowrap mt-0.5">{CONFIG.title}</span>
             </div>
           </button>
 
