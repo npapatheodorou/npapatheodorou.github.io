@@ -28,8 +28,12 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <button onClick={() => handleNav('overview')} className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-lg shadow-primary-500/20">
-              <span className="text-white font-bold text-sm">NP</span>
+            <div className="w-9 h-9 rounded-xl overflow-hidden border border-surface-700/40 shadow-lg shadow-primary-500/10 bg-white/90">
+              <img
+                src={(process.env.PUBLIC_URL || '') + '/apple-touch-icon.png'}
+                alt="Nikos Papatheodorou logo"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div className="hidden sm:block">
               <span className="text-heading font-semibold text-sm">{CONFIG.name}</span>

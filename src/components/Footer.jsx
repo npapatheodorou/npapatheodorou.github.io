@@ -6,8 +6,12 @@ var Footer = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center">
-            <span className="text-white font-bold text-xs">NP</span>
+          <div className="w-8 h-8 rounded-lg overflow-hidden border border-surface-700/40 bg-white/90">
+            <img
+              src={(process.env.PUBLIC_URL || '') + '/apple-touch-icon.png'}
+              alt="Nikos Papatheodorou logo"
+              className="w-full h-full object-cover"
+            />
           </div>
           <div><span className="text-heading font-semibold text-sm">{CONFIG.name}</span><span className="text-surface-500 text-xs block">{CONFIG.title}</span></div>
         </div>
