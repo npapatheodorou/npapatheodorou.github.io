@@ -1,46 +1,67 @@
 import React, { useState } from 'react';
 import { PUBLICATIONS_DATA } from '../utils/constants';
 
+var PUBLISHER_BRANDS = {
+  IEEE: {
+    alt: 'IEEE',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/ieee.svg',
+    bg: 'bg-white',
+    cardIconSize: 'w-4 h-4',
+    bannerIconSize: 'w-4.5 h-4.5',
+  },
+  ACM: {
+    alt: 'ACM',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/acm.svg',
+    bg: 'bg-white',
+    cardIconSize: 'w-4 h-4',
+    bannerIconSize: 'w-4.5 h-4.5',
+  },
+  Springer: {
+    alt: 'Springer',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/springer.svg',
+    bg: 'bg-white',
+    cardIconSize: 'w-5 h-5',
+    bannerIconSize: 'w-5 h-5',
+  },
+  MDPI: {
+    alt: 'MDPI',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/mdpi.svg',
+    bg: 'bg-white',
+    cardIconSize: 'w-5 h-5',
+    bannerIconSize: 'w-5 h-5',
+  },
+};
+
+var PublisherLogo = ({ publisher, banner }) => {
+  var brand = PUBLISHER_BRANDS[publisher];
+
+  if (!brand) {
+    return <span className="text-surface-500 text-xs font-semibold">{publisher}</span>;
+  }
+
+  var iconSize = banner ? brand.bannerIconSize : brand.cardIconSize;
+  var boxSize = banner ? 'w-7 h-7' : 'w-6 h-6';
+
+  return (
+    <div className="flex items-center gap-1.5">
+      <div className={boxSize + ' rounded flex items-center justify-center overflow-hidden border border-surface-700/20 ' + brand.bg}>
+        <img
+          src={brand.src}
+          alt={brand.alt + ' logo'}
+          className={iconSize + ' object-contain'}
+          loading="lazy"
+        />
+      </div>
+      <span className="text-surface-500 text-xs font-semibold">{publisher}</span>
+    </div>
+  );
+};
+
 var PublicationCard = ({ pub, isExpanded, onToggle }) => {
   var typeStyles = {
     'Journal Article': { bg: 'bg-purple-500/10', text: 'text-purple-500', border: 'border-purple-500/20' },
     'Conference Paper': { bg: 'bg-blue-500/10', text: 'text-blue-500', border: 'border-blue-500/20' },
     'Book Chapter': { bg: 'bg-green-500/10', text: 'text-green-500', border: 'border-green-500/20' },
-  };
-
-  var publisherLogos = {
-    'IEEE': (
-      <div className="flex items-center gap-1.5">
-        <div className="w-6 h-6 rounded bg-blue-600 flex items-center justify-center">
-          <span className="text-white text-[8px] font-black tracking-tight">IEEE</span>
-        </div>
-        <span className="text-surface-500 text-xs font-semibold">IEEE</span>
-      </div>
-    ),
-    'ACM': (
-      <div className="flex items-center gap-1.5">
-        <div className="w-6 h-6 rounded bg-gray-700 flex items-center justify-center">
-          <span className="text-white text-[8px] font-black">ACM</span>
-        </div>
-        <span className="text-surface-500 text-xs font-semibold">ACM</span>
-      </div>
-    ),
-    'Springer': (
-      <div className="flex items-center gap-1.5">
-        <div className="w-6 h-6 rounded bg-blue-800 flex items-center justify-center">
-          <span className="text-white text-[8px] font-black">S</span>
-        </div>
-        <span className="text-surface-500 text-xs font-semibold">Springer</span>
-      </div>
-    ),
-    'MDPI': (
-      <div className="flex items-center gap-1.5">
-        <div className="w-6 h-6 rounded bg-orange-600 flex items-center justify-center">
-          <span className="text-white text-[7px] font-black">MDPI</span>
-        </div>
-        <span className="text-surface-500 text-xs font-semibold">MDPI</span>
-      </div>
-    ),
   };
 
   var style = typeStyles[pub.type] || typeStyles['Conference Paper'];
@@ -59,7 +80,7 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
             </span>
             <span className="text-surface-500 text-xs font-semibold">{pub.year}</span>
           </div>
-          {publisherLogos[pub.publisher]}
+          <PublisherLogo publisher={pub.publisher} />
         </div>
 
         {/* Title */}
@@ -300,17 +321,14 @@ var Publications = function() {
           <p className="text-surface-600 text-xs uppercase tracking-widest font-bold mb-4">Published With</p>
           <div className="flex items-center justify-center gap-8 flex-wrap">
             {[
-              { name: 'IEEE', color: 'bg-blue-600' },
-              { name: 'ACM', color: 'bg-gray-700' },
-              { name: 'Springer', color: 'bg-blue-800' },
-              { name: 'MDPI', color: 'bg-orange-600' },
+              { name: 'IEEE' },
+              { name: 'ACM' },
+              { name: 'Springer' },
+              { name: 'MDPI' },
             ].map(function(p) {
               return (
                 <div key={p.name} className="flex items-center gap-2 px-4 py-2 bg-surface-800/40 border border-surface-700/30 rounded-xl">
-                  <div className={'w-7 h-7 rounded-lg ' + p.color + ' flex items-center justify-center'}>
-                    <span className="text-white text-[9px] font-black">{p.name}</span>
-                  </div>
-                  <span className="text-surface-400 text-sm font-semibold">{p.name}</span>
+                  <PublisherLogo publisher={p.name} banner />
                 </div>
               );
             })}

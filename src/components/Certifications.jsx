@@ -1,37 +1,49 @@
 import React, { useState } from 'react';
 import { CERTIFICATIONS_DATA } from '../utils/constants';
 
+var BRAND_LOGOS = {
+  microsoft: {
+    alt: 'Microsoft Azure',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/azure.svg',
+    bg: 'bg-blue-500/10',
+    cardSize: 'w-6 h-6',
+    bannerSize: 'w-6 h-6',
+  },
+  aws: {
+    alt: 'Amazon Web Services',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/aws-plain.svg',
+    bg: 'bg-amber-500/10',
+    cardSize: 'w-8 h-8',
+    bannerSize: 'w-7 h-7',
+  },
+  oracle: {
+    alt: 'Oracle',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/oracle.svg',
+    bg: 'bg-red-500/10',
+    cardSize: 'w-8 h-8',
+    bannerSize: 'w-7 h-7',
+  },
+  vaadin: {
+    alt: 'Vaadin',
+    src: (process.env.PUBLIC_URL || '') + '/icons/brands/vaadin.svg',
+    bg: 'bg-cyan-500/10',
+    cardSize: 'w-6 h-6',
+    bannerSize: 'w-6 h-6',
+  },
+};
+
 var LogoIcon = ({ logo }) => {
-  var logos = {
-    microsoft: (
-      <div className="w-10 h-10 rounded-xl bg-[#00a4ef]/10 flex items-center justify-center">
-        <svg className="w-6 h-6" viewBox="0 0 23 23">
-          <rect x="0" y="0" width="11" height="11" fill="#f25022" />
-          <rect x="12" y="0" width="11" height="11" fill="#7fba00" />
-          <rect x="0" y="12" width="11" height="11" fill="#00a4ef" />
-          <rect x="12" y="12" width="11" height="11" fill="#ffb900" />
-        </svg>
-      </div>
-    ),
-    aws: (
-      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center">
-        <span className="text-amber-500 font-black text-xs tracking-tight">AWS</span>
-      </div>
-    ),
-    oracle: (
-      <div className="w-10 h-10 rounded-xl bg-red-500/10 flex items-center justify-center">
-        <span className="text-red-500 font-black text-[10px] tracking-tight">Oracle</span>
-      </div>
-    ),
-    vaadin: (
-      <div className="w-10 h-10 rounded-xl bg-cyan-500/10 flex items-center justify-center">
-        <svg className="w-5 h-5 text-cyan-500" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" strokeWidth="2" fill="none" />
-        </svg>
-      </div>
-    ),
-  };
-  return logos[logo] || logos.oracle;
+  var brand = BRAND_LOGOS[logo] || BRAND_LOGOS.oracle;
+  return (
+    <div className={'w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden ' + brand.bg}>
+      <img
+        src={brand.src}
+        alt={brand.alt + ' logo'}
+        className={brand.cardSize + ' object-contain'}
+        loading="lazy"
+      />
+    </div>
+  );
 };
 
 var StatusBadge = ({ status, expires }) => {
@@ -230,15 +242,21 @@ var Certifications = function() {
           <p className="text-surface-600 text-xs uppercase tracking-widest font-bold mb-4 text-center">Certified By</p>
           <div className="flex items-center justify-center gap-8 flex-wrap">
             {[
-              { name: 'Oracle', sub: 'Java SE 17', color: 'bg-red-600' },
-              { name: 'AWS', sub: 'Cloud Practitioner', color: 'bg-amber-500' },
-              { name: 'Microsoft', sub: 'Azure Admin', color: 'bg-blue-600' },
-              { name: 'Vaadin', sub: 'v14 & v24', color: 'bg-cyan-600' },
+              { name: 'Oracle', sub: 'Java SE 17', logo: 'oracle' },
+              { name: 'AWS', sub: 'Cloud Practitioner', logo: 'aws' },
+              { name: 'Microsoft Azure', sub: 'Azure Admin', logo: 'microsoft' },
+              { name: 'Vaadin', sub: 'v14 & v24', logo: 'vaadin' },
             ].map(function(p) {
+              var brand = BRAND_LOGOS[p.logo] || BRAND_LOGOS.oracle;
               return (
                 <div key={p.name} className="flex items-center gap-3 px-5 py-3 bg-surface-900/50 border border-surface-700/30 rounded-xl hover:border-primary-500/20 transition-all">
-                  <div className={p.color + ' w-8 h-8 rounded-lg flex items-center justify-center'}>
-                    <span className="text-white text-[9px] font-black">{p.name === 'Microsoft' ? 'MS' : p.name}</span>
+                  <div className={'w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden ' + brand.bg}>
+                    <img
+                      src={brand.src}
+                      alt={brand.alt + ' logo'}
+                      className={brand.bannerSize + ' object-contain'}
+                      loading="lazy"
+                    />
                   </div>
                   <div>
                     <span className="text-heading text-sm font-bold block">{p.name}</span>
