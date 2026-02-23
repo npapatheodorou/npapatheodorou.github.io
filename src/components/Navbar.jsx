@@ -35,9 +35,9 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="hidden sm:block">
-              <span className="text-heading font-semibold text-sm">{CONFIG.name}</span>
-              <span className="block text-surface-500 text-xs">{CONFIG.title}</span>
+            <div className="hidden sm:flex flex-col items-start leading-tight">
+              <span className="text-heading font-semibold text-sm whitespace-nowrap">{CONFIG.name}</span>
+              <span className="text-surface-500 text-xs whitespace-nowrap mt-0.5">{CONFIG.title}</span>
             </div>
           </button>
 
