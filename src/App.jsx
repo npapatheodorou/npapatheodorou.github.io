@@ -16,30 +16,23 @@ import useGitHub from './hooks/useGitHub';
 import { CONFIG } from './utils/constants';
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(() => {
-    var saved = localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
-
+  const [darkMode, setDarkMode] = useState(true);
   const { profile, repos, loading, error, refetch } = useGitHub(CONFIG.githubUsername);
 
   useEffect(() => {
     if (darkMode) {
       document.documentElement.classList.add('dark');
-      document.documentElement.classList.remove('light');
     } else {
       document.documentElement.classList.remove('dark');
-      document.documentElement.classList.add('light');
     }
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
-  var toggleDarkMode = () => setDarkMode(!darkMode);
+  const toggleDarkMode = () => setDarkMode(!darkMode);
 
   return (
-    <div className="min-h-screen bg-surface-950 transition-colors duration-300">
+    <div className="min-h-screen bg-surface-950">
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+
       <main>
         {loading ? (
           <div className="min-h-screen flex items-center justify-center">
@@ -48,8 +41,15 @@ const App = () => {
         ) : error ? (
           <div className="min-h-screen flex flex-col">
             <Hero profile={null} />
-            <div className="py-12"><ErrorState message={error} onRetry={refetch} /></div>
-            <Skills /><Projects /><Contributions /><Research /><Career /><Contact />
+            <div className="py-12">
+              <ErrorState message={error} onRetry={refetch} />
+            </div>
+            <Skills />
+            <Projects />
+            <Contributions />
+            <Research />
+            <Career />
+            <Contact />
           </div>
         ) : (
           <>
@@ -64,6 +64,7 @@ const App = () => {
           </>
         )}
       </main>
+
       <Footer />
       <ScrollToTop />
     </div>

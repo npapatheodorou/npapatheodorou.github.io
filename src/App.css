@@ -1,38 +1,103 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========== LIGHT THEME (default) ========== */
+:root {
+  --s-950: 249 250 251;
+  --s-900: 243 244 246;
+  --s-800: 255 255 255;
+  --s-700: 229 231 235;
+  --s-600: 156 163 175;
+  --s-500: 107 114 128;
+  --s-400: 75 85 99;
+  --s-300: 55 65 81;
+  --s-200: 31 41 55;
+  --s-100: 17 24 39;
+  --s-50: 3 7 18;
+  --heading: 17 24 39;
+  --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
+  --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ========== DARK THEME ========== */
+.dark {
+  --s-950: 2 6 23;
+  --s-900: 15 23 42;
+  --s-800: 30 41 59;
+  --s-700: 51 65 85;
+  --s-600: 71 85 105;
+  --s-500: 100 116 139;
+  --s-400: 148 163 184;
+  --s-300: 203 213 225;
+  --s-200: 226 232 240;
+  --s-100: 241 245 249;
+  --s-50: 248 250 252;
+  --heading: 255 255 255;
+  --card-shadow: none;
+  --card-shadow-hover: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+body {
+  background-color: rgb(var(--s-950));
+  color: rgb(var(--heading));
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: rgb(var(--s-900)); }
+::-webkit-scrollbar-thumb { background: rgb(var(--s-700)); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: rgb(var(--s-600)); }
+
+::selection { background-color: rgba(59, 130, 246, 0.3); color: rgb(var(--heading)); }
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+
+/* Card shadow utility */
+.card {
+  box-shadow: var(--card-shadow);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+}
+.card:hover {
+  box-shadow: var(--card-shadow-hover);
+}
+
+/* Light mode specific polish */
+:root:not(.dark) .glass-nav {
+  background: rgba(255, 255, 255, 0.85);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+}
+
+.dark .glass-nav {
+  background: rgba(15, 23, 42, 0.9);
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+/* Smooth all transitions */
+* {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
+}
+
+/* Exclude animations from transition override */
+*[class*="animate-"],
+*[class*="transition-transform"],
+*[class*="transition-all"] {
+  transition-property: all;
 }
