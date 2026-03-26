@@ -241,7 +241,7 @@ export const PROJECTS_DATA = [
 export const CAREER_DATA = [
   {
     id: 1,
-    title: 'DevOps Developer',
+    title: 'DevOps Engineer',
     company: 'Ernst & Young (EY)',
     employmentType: 'Full-time',
     period: 'Jul 2024 - Present',
