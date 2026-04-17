@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { PROJECTS_DATA } from '../utils/constants';
 
+var cleanText = function(value) {
+  if (!value) return value;
+  return value
+    .replace(/\u00e2\u20ac\u00a0/g, ' ')
+    .replace(/\u00e2\u20ac\u00a2/g, '|')
+    .replace(/\u00e2\u2020\u2019/g, '->')
+    .replace(/\u00e2\u02c6\u017e/g, 'large gain');
+};
+
 var ProjectCard = ({ project, open, toggle }) => (
   <div className="card bg-surface-800/60 border border-surface-700/50 rounded-2xl overflow-hidden hover:border-primary-500/20">
     <div className={'p-6 bg-gradient-to-r ' + project.gradient}>
@@ -18,40 +27,49 @@ var ProjectCard = ({ project, open, toggle }) => (
     </div>
     <div className="p-6">
       <div className="mb-4">
-        <h4 className="text-red-500 text-xs uppercase tracking-widest font-bold mb-2">⚠ Challenge</h4>
+        <h4 className="text-red-500 text-xs uppercase tracking-widest font-bold mb-2">Challenge</h4>
         <p className="text-surface-500 text-sm leading-relaxed">{project.challenge}</p>
       </div>
       <div className="mb-4">
-        <h4 className="text-green-500 text-xs uppercase tracking-widest font-bold mb-2">✓ Solution</h4>
+        <h4 className="text-green-500 text-xs uppercase tracking-widest font-bold mb-2">Solution</h4>
         <p className="text-surface-500 text-sm leading-relaxed">{project.solution}</p>
       </div>
       <div className="flex flex-wrap gap-1.5 mb-4">
-        {project.tools.map(t => <span key={t} className="px-2.5 py-1 text-xs font-semibold bg-surface-700/40 text-surface-400 rounded-lg">{t}</span>)}
+        {project.tools.map(function(tool) {
+          return <span key={tool} className="px-2.5 py-1 text-xs font-semibold bg-surface-700/40 text-surface-400 rounded-lg">{tool}</span>;
+        })}
       </div>
 
       <div className={'overflow-hidden transition-all duration-500 ' + (open ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0')}>
         <div className="mt-4 pt-4 border-t border-surface-700/30">
-          <h4 className="text-primary-500 text-xs uppercase tracking-widest font-bold mb-3">🏗 Architecture</h4>
+          <h4 className="text-primary-500 text-xs uppercase tracking-widest font-bold mb-3">Architecture</h4>
           <ul className="space-y-2">
-            {project.architecture.map((a, i) => (
-              <li key={i} className="flex items-start gap-2 text-surface-500 text-sm"><span className="text-primary-500 mt-0.5 font-bold">›</span>{a}</li>
-            ))}
+            {project.architecture.map(function(item, index) {
+              return (
+                <li key={index} className="flex items-start gap-2 text-surface-500 text-sm">
+                  <span className="text-primary-500 mt-0.5 font-bold">{'>'}</span>
+                  {cleanText(item)}
+                </li>
+              );
+            })}
           </ul>
         </div>
         <div className="mt-6">
-          <h4 className="text-amber-500 text-xs uppercase tracking-widest font-bold mb-3">📈 Results</h4>
+          <h4 className="text-amber-500 text-xs uppercase tracking-widest font-bold mb-3">Results</h4>
           <div className="grid grid-cols-2 gap-3">
-            {project.results.map((r, i) => (
-              <div key={i} className="bg-surface-900/50 rounded-xl p-3.5 border border-surface-700/20">
-                <div className="text-surface-600 text-xs font-medium mb-1">{r.metric}</div>
-                <div className="flex items-center gap-2">
-                  <span className="text-surface-600 text-xs line-through">{r.before}</span>
-                  <span className="text-green-500">→</span>
-                  <span className="text-heading font-bold text-sm">{r.after}</span>
+            {project.results.map(function(result, index) {
+              return (
+                <div key={index} className="bg-surface-900/50 rounded-xl p-3.5 border border-surface-700/20">
+                  <div className="text-surface-600 text-xs font-medium mb-1">{result.metric}</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-surface-600 text-xs line-through">{result.before}</span>
+                    <span className="text-green-500">{'->'}</span>
+                    <span className="text-heading font-bold text-sm">{cleanText(result.after)}</span>
+                  </div>
+                  <div className="text-green-500 text-xs font-mono font-bold mt-1">{cleanText(result.improvement)}</div>
                 </div>
-                <div className="text-green-500 text-xs font-mono font-bold mt-1">↑ {r.improvement}</div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -60,30 +78,36 @@ var ProjectCard = ({ project, open, toggle }) => (
 );
 
 var Projects = () => {
-  const [expandedId, setExpandedId] = useState(null);
+  const [expandedId, setExpandedId] = useState(PROJECTS_DATA[0] ? PROJECTS_DATA[0].id : null);
   const [filter, setFilter] = useState('all');
-  var cats = ['all'].concat([...new Set(PROJECTS_DATA.map(p => p.category))]);
-  var filtered = filter === 'all' ? PROJECTS_DATA : PROJECTS_DATA.filter(p => p.category === filter);
+  var cats = ['all'].concat([...new Set(PROJECTS_DATA.map(function(project) { return project.category; }))]);
+  var filtered = filter === 'all' ? PROJECTS_DATA : PROJECTS_DATA.filter(function(project) { return project.category === filter; });
 
   return (
     <section id="projects" className="py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">Engineering Impact</span>
+          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">Featured Work</span>
           <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Projects & Case Studies</h2>
-          <p className="text-surface-500 text-lg max-w-2xl mx-auto">Real-world challenges solved with measurable results.</p>
+          <p className="text-surface-500 text-lg max-w-3xl mx-auto">
+            Selected work focused on delivery acceleration, cloud reliability, secure platform design, and backend modernization.
+          </p>
         </div>
         <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {cats.map(c => (
-            <button key={c} onClick={() => setFilter(c)}
-              className={'px-4 py-2 rounded-xl text-sm font-semibold transition-all ' +
-                (filter === c ? 'bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30' : 'bg-surface-800/50 text-surface-500 border border-surface-700/50 hover:text-heading')}>
-              {c === 'all' ? 'All Projects' : c}
-            </button>
-          ))}
+          {cats.map(function(category) {
+            return (
+              <button key={category} onClick={() => setFilter(category)}
+                className={'px-4 py-2 rounded-xl text-sm font-semibold transition-all ' +
+                  (filter === category ? 'bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30' : 'bg-surface-800/50 text-surface-500 border border-surface-700/50 hover:text-heading')}>
+                {category === 'all' ? 'All Projects' : category}
+              </button>
+            );
+          })}
         </div>
         <div className="grid lg:grid-cols-2 gap-6">
-          {filtered.map(p => <ProjectCard key={p.id} project={p} open={expandedId === p.id} toggle={id => setExpandedId(expandedId === id ? null : id)} />)}
+          {filtered.map(function(project) {
+            return <ProjectCard key={project.id} project={project} open={expandedId === project.id} toggle={function(id) { setExpandedId(expandedId === id ? null : id); }} />;
+          })}
         </div>
       </div>
     </section>

@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import Projects from './components/Projects';
+import Career from './components/Career';
 import Repositories from './components/Repositories';
 import Skills from './components/Skills';
 import Certifications from './components/Certifications';
-import Projects from './components/Projects';
-import Contributions from './components/Contributions';
 import Publications from './components/Publications';
-import Research from './components/Research';
-import Career from './components/Career';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LoadingSpinner from './components/LoadingSpinner';
@@ -53,26 +51,23 @@ const App = () => {
             <div className="py-12">
               <ErrorState message={error} onRetry={refetch} />
             </div>
+            <Projects />
+            <Career />
+            <Repositories repos={[]} />
             <Skills />
             <Certifications />
-            <Projects />
-            <Contributions />
             <Publications />
-            <Research />
-            <Career />
             <Contact />
           </div>
         ) : (
           <>
             <Hero profile={profile} />
+            <Projects />
+            <Career />
             <Repositories repos={repos} />
             <Skills />
             <Certifications />
-            <Projects />
-            <Contributions />
             <Publications />
-            <Research />
-            <Career />
             <Contact />
           </>
         )}

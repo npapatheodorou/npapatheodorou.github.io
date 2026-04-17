@@ -3,7 +3,7 @@ import { CONFIG } from '../utils/constants';
 
 var Contact = () => (
   <section id="contact" className="py-24">
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-blue-900" />
         <div className="absolute inset-0 opacity-10" style={{
@@ -14,40 +14,83 @@ var Contact = () => (
         <div className="relative px-8 py-16 sm:px-16 sm:py-20 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-8 backdrop-blur-sm">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            <span className="text-white/90 text-sm font-semibold">Open to opportunities</span>
+            <span className="text-white/90 text-sm font-semibold">Open to full-time and consulting opportunities</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-5 tracking-tight">Let's Build Something Great</h2>
-          <p className="text-blue-100/70 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
-            Passionate about building secure, scalable systems and driving DevOps transformation.
-            Let's discuss architecture, automation, or your next engineering challenge.
+          <p className="text-blue-100/70 text-lg max-w-3xl mx-auto mb-10 leading-relaxed">
+            I am open to DevOps, platform engineering, backend, and cloud delivery roles.
+            If you need faster releases, stronger reliability, or better engineering automation, let's talk.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+          <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10">
+            {[
+              { title: 'Best For', desc: 'Platform engineering, cloud delivery, Java services, and DevOps modernization.' },
+              { title: 'What You Get', desc: 'A practical engineer who can design, implement, and operationalize the solution.' },
+              { title: 'Collaboration', desc: 'Happy to discuss roles, consulting, architecture reviews, or delivery challenges.' },
+            ].map(function(item) {
+              return (
+                <div key={item.title} className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-5 text-left">
+                  <h3 className="text-white font-bold mb-2">{item.title}</h3>
+                  <p className="text-blue-100/70 text-sm leading-relaxed">{item.desc}</p>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="flex flex-col lg:flex-row lg:flex-wrap items-center justify-center gap-4 mb-8">
             <a href={'mailto:' + CONFIG.contactEmail}
-              className="group flex items-center gap-3 px-8 py-4 bg-white text-primary-700 rounded-xl font-bold hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl w-full sm:w-auto justify-center">
-              📧 {CONFIG.contactEmail}
+              className="group flex items-center gap-3 px-8 py-4 bg-white text-primary-700 rounded-xl font-bold hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl w-full lg:w-auto justify-center">
+              Email Me
               <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </a>
             <a href={CONFIG.linkedIn} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full sm:w-auto justify-center">
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
               Connect on LinkedIn
+            </a>
+            <a href={CONFIG.resumeUrl} download
+              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
+              Download Resume
+            </a>
+            <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer"
+              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
+              View GitHub
             </a>
           </div>
 
-          <div className="grid sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
-            {[{ icon: '🔒', title: 'Security-First', desc: 'Secure architecture & DevSecOps' },
-              { icon: '⚡', title: 'Automation-Driven', desc: 'CI/CD & infrastructure as code' },
-              { icon: '📈', title: 'Performance-Focused', desc: 'Scalable & reliable systems' }].map(i => (
-              <div key={i.title} className="text-center">
-                <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-3 text-2xl backdrop-blur-sm">{i.icon}</div>
-                <h4 className="text-white font-bold text-sm mb-1">{i.title}</h4>
-                <p className="text-blue-200/50 text-xs">{i.desc}</p>
-              </div>
-            ))}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm">
+            <a href={'mailto:' + CONFIG.contactEmail} className="text-white/85 font-medium hover:text-white transition-colors">
+              {CONFIG.contactEmail}
+            </a>
+            <span className="hidden sm:block text-white/30">|</span>
+            <a href={CONFIG.linkedIn} target="_blank" rel="noopener noreferrer" className="text-white/85 font-medium hover:text-white transition-colors">
+              LinkedIn
+            </a>
+            <span className="hidden sm:block text-white/30">|</span>
+            <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer" className="text-white/85 font-medium hover:text-white transition-colors">
+              GitHub
+            </a>
+          </div>
+
+          <div className="grid sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-12">
+            {[
+              { emoji: '🔐', eyebrow: 'Security', title: 'Security-First', desc: 'Secure architecture and DevSecOps practices.' },
+              { emoji: '🤖', eyebrow: 'Automation', title: 'Automation-Driven', desc: 'CI/CD, infrastructure as code, and repeatable delivery.' },
+              { emoji: '🚀', eyebrow: 'Reliability', title: 'Performance-Focused', desc: 'Scalable services with strong operational discipline.' }
+            ].map(function(item) {
+              return (
+                <div key={item.title} className="text-center">
+                  <div className="w-14 h-14 bg-white/10 rounded-2xl border border-white/10 flex items-center justify-center mx-auto mb-3 text-2xl backdrop-blur-sm text-white shadow-lg">
+                    <span aria-hidden="true">{item.emoji}</span>
+                  </div>
+                  <div className="text-[11px] font-black uppercase tracking-[0.22em] text-white/65 mb-2">{item.eyebrow}</div>
+                  <h4 className="text-white font-bold text-sm mb-1">{item.title}</h4>
+                  <p className="text-blue-200/50 text-xs">{item.desc}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

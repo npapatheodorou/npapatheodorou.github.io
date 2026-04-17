@@ -1,6 +1,8 @@
 export const CONFIG = {
   githubUsername: 'npapatheodorou',
   contactEmail: 'n.papatheodorou@pm.me',
+  resumeUrl: (process.env.PUBLIC_URL || '') + '/Papatheodorou_Nikos_CV.pdf',
+  gravatarUrl: 'https://www.gravatar.com/avatar/919530f5105d2a1d388bf1ed6dba3e2eb29f1531e27c81dc3950564f5595f792?s=256',
   headline: 'DevOps Engineer | Java • Spring • Quarkus | Secure, Scalable Systems',
   linkedIn: 'https://www.linkedin.com/in/npapatheodorou',
   name: 'Nikos Papatheodorou',

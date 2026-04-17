@@ -6,11 +6,14 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('overview');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const visibleNavItems = NAV_ITEMS.filter(function(item) {
+    return item.id !== 'contributions' && item.id !== 'research';
+  });
 
   useEffect(() => {
     var handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      var current = NAV_ITEMS.map(i => i.id).find(id => {
+      var current = visibleNavItems.map(i => i.id).find(id => {
         var el = document.getElementById(id);
         if (el) { var r = el.getBoundingClientRect(); return r.top <= 100 && r.bottom >= 100; }
         return false;
@@ -19,7 +22,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [visibleNavItems]);
 
   var handleNav = (id) => { smoothScroll(id); setMobileOpen(false); };
 
@@ -42,7 +45,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           </button>
 
           <div className="hidden lg:flex items-center gap-1">
-            {NAV_ITEMS.map(item => (
+            {visibleNavItems.map(item => (
               <button key={item.id} onClick={() => handleNav(item.id)}
                 className={'px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ' +
                   (activeSection === item.id
@@ -87,7 +90,7 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
         <div className={'lg:hidden overflow-hidden transition-all duration-300 ' + (mobileOpen ? 'max-h-96 pb-4' : 'max-h-0')}>
           <div className="grid grid-cols-2 gap-1 pt-2">
-            {NAV_ITEMS.map(item => (
+            {visibleNavItems.map(item => (
               <button key={item.id} onClick={() => handleNav(item.id)}
                 className={'px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ' +
                   (activeSection === item.id ? 'bg-primary-500/15 text-primary-600' : 'text-surface-500 hover:text-heading hover:bg-surface-800/50')}>
