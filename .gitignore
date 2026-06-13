@@ -12,6 +12,7 @@
 /build
 
 # misc
+.claude/
 .DS_Store
 Thumbs.db
 .env.local

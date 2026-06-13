@@ -7,15 +7,18 @@
   --s-950: 249 250 251;
   --s-900: 243 244 246;
   --s-800: 255 255 255;
-  --s-700: 229 231 235;
-  --s-600: 156 163 175;
-  --s-500: 107 114 128;
-  --s-400: 75 85 99;
-  --s-300: 55 65 81;
-  --s-200: 31 41 55;
-  --s-100: 17 24 39;
+  --s-700: 226 232 240;
+  /* s-600 / s-500 double as muted/body text in light mode. Darkened from the
+     original gray-400/500 so `text-surface-600` (#64748B ~4.6:1) and
+     `text-surface-500` (#475569 ~7:1) clear WCAG AA on white cards. */
+  --s-600: 100 116 139;
+  --s-500: 71 85 105;
+  --s-400: 51 65 85;
+  --s-300: 30 41 59;
+  --s-200: 17 24 39;
+  --s-100: 15 23 42;
   --s-50: 3 7 18;
-  --heading: 17 24 39;
+  --heading: 15 23 42;
   --card-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.06), 0 1px 2px -1px rgb(0 0 0 / 0.06);
   --card-shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.08);
 }
@@ -57,7 +60,7 @@ body {
 ::-webkit-scrollbar-thumb { background: rgb(var(--s-700)); border-radius: 9999px; }
 ::-webkit-scrollbar-thumb:hover { background: rgb(var(--s-600)); }
 
-::selection { background-color: rgba(59, 130, 246, 0.3); color: rgb(var(--heading)); }
+::selection { background-color: rgba(99, 102, 241, 0.32); color: rgb(var(--heading)); }
 
 .line-clamp-2 {
   display: -webkit-box;
@@ -66,7 +69,29 @@ body {
   overflow: hidden;
 }
 
-:focus-visible { outline: 2px solid #3b82f6; outline-offset: 2px; }
+:focus-visible { outline: 2px solid #6366f1; outline-offset: 2px; }
+
+/* Sections sit under a fixed 4rem navbar — give anchored jumps clean headroom
+   regardless of how navigation happens. */
+section[id] { scroll-margin-top: 5rem; }
+
+/* Display headings use Space Grotesk for a more characterful, designed feel;
+   body stays Inter. Balanced wrapping avoids lonely last words. */
+h1, h2 {
+  font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+
+/* Signature gradient — heading color easing through indigo into cyan. Reads as
+   premium without sacrificing contrast (the base is the solid heading color). */
+.text-gradient {
+  background-image: linear-gradient(110deg, rgb(var(--heading)) 28%, #6366f1 75%, #22d3ee 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
 
 /* Card shadow utility */
 .card {
@@ -76,6 +101,51 @@ body {
 .card:hover {
   box-shadow: var(--card-shadow-hover);
 }
+/* Dark mode had no card elevation at all — add a soft brand-tinted glow + lift
+   so hovered cards gain real depth instead of only a border-color change. */
+.dark .card:hover {
+  box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.12), 0 18px 40px -20px rgba(0, 0, 0, 0.75);
+}
+
+/* Premium gradient CTA — indigo→cyan with depth + sheen, for primary actions. */
+.btn-primary {
+  background-image: linear-gradient(135deg, #6366f1 0%, #4f46e5 50%, #0891b2 110%);
+  box-shadow: 0 8px 20px -8px rgba(79, 70, 229, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.18);
+  transition: box-shadow 0.25s ease, transform 0.2s ease, filter 0.2s ease;
+}
+.btn-primary:hover {
+  filter: brightness(1.07);
+  box-shadow: 0 12px 28px -8px rgba(8, 145, 178, 0.6), inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+  transform: translateY(-1px);
+}
+.btn-primary:active { transform: translateY(0); }
+
+/* ===== Terminal / CLI brand motif =====
+   Always dark — a real terminal reads as dark regardless of page theme, which
+   also gives light mode a striking focal accent. Inner text uses fixed slate
+   colors (see Terminal.jsx) so it stays legible in both themes. */
+.terminal {
+  font-family: 'JetBrains Mono', monospace;
+  background: #0b1220;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 0.9rem;
+  overflow: hidden;
+  color: #cbd5e1;
+}
+.terminal-bar {
+  background: #0f1a30;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.55);
+}
+.terminal-caret {
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  margin-left: 0.15ch;
+  vertical-align: text-bottom;
+  background: #22d3ee;
+  animation: caret-blink 1.1s steps(1) infinite;
+}
+@keyframes caret-blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
 
 /* Light mode specific polish */
 :root:not(.dark) .glass-nav {
@@ -88,16 +158,42 @@ body {
   border-bottom: 1px solid rgba(51, 65, 85, 0.5);
 }
 
-/* Smooth all transitions */
-* {
-  transition-property: background-color, border-color, color, box-shadow;
-  transition-duration: 200ms;
-  transition-timing-function: ease-in-out;
+/* Theme switch: transition only the color-bearing properties on themed
+   surfaces, instead of forcing transition tracking on every DOM node (the old
+   universal `* { transition }` rule was a layout/repaint footgun). */
+.dark,
+:root:not(.dark) {
+  --theme-transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Exclude animations from transition override */
-*[class*="animate-"],
-*[class*="transition-transform"],
-*[class*="transition-all"] {
-  transition-property: all;
+/* Scroll-reveal primitive (see Reveal.jsx). Off-screen state is set inline;
+   this just provides the eased transition. */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ========== Respect reduced-motion preferences (WCAG 2.3.3) ========== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

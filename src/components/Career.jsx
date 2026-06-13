@@ -1,5 +1,6 @@
 import React from 'react';
 import { CAREER_DATA } from '../utils/constants';
+import SectionHeader from './SectionHeader';
 
 var tones = {
   current: {
@@ -148,16 +149,12 @@ var CareerCard = ({ item }) => {
 
 var Career = () => (
   <section id="career" className="py-24 bg-surface-900/40">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center mb-14">
-        <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">
-          Professional Journey
-        </span>
-        <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Career Timeline</h2>
-        <p className="text-surface-500 text-lg max-w-3xl mx-auto">
-          Consolidated timeline of engineering and teaching roles with clear scope, dates, and responsibilities.
-        </p>
-      </div>
+    <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+      <SectionHeader
+        eyebrow="Professional Journey"
+        title="Career Timeline"
+        subtitle="Consolidated timeline of engineering and teaching roles with clear scope, dates, and responsibilities."
+      />
 
       <div className="relative max-w-5xl mx-auto">
         <div className="absolute left-5 top-0 bottom-0 w-px bg-surface-700/50" />

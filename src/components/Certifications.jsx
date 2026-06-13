@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { CERTIFICATIONS_DATA } from '../utils/constants';
+import SectionHeader from './SectionHeader';
 
 var BRAND_LOGOS = {
   microsoft: {
@@ -170,16 +171,13 @@ var Certifications = function() {
 
   return (
     <section id="certifications" className="py-24 bg-surface-900/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-sm font-semibold mb-4">
-            Professional Credentials
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Certifications</h2>
-          <p className="text-surface-500 text-lg max-w-2xl mx-auto">
-            Industry-recognized certifications validating expertise in cloud platforms, Java development, and modern web technologies.
-          </p>
-        </div>
+      <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          accent="emerald"
+          eyebrow="Professional Credentials"
+          title="Certifications"
+          subtitle="Industry-recognized certifications validating expertise in cloud platforms, Java development, and modern web technologies."
+        />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[

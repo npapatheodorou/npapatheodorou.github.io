@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { calculateLanguageStats, formatDate, formatNumber, getLanguageColor } from '../utils/helpers';
+import SectionHeader from './SectionHeader';
 
 var RepoCard = ({ repo }) => (
   <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
@@ -133,12 +134,19 @@ var Repositories = ({ repos }) => {
 
   return (
     <section id="repositories" className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">Open Source Signal</span>
-          <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Repositories</h2>
-          <p className="text-surface-500 text-lg max-w-2xl mx-auto">Selected repositories that reinforce backend, automation, and infrastructure experience.</p>
-        </div>
+      <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow="Open Source & Tooling"
+          title="Open-Source Projects"
+          subtitle="Public tools, utilities, and experiments I build in the open — across Go, Python, and JavaScript."
+        >
+          <p className="mt-5 inline-flex items-start gap-2 text-surface-500 text-xs font-medium bg-surface-800/50 border border-surface-700/40 rounded-xl px-4 py-2.5 text-left max-w-xl">
+            <svg className="w-3.5 h-3.5 text-accent-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Most of my production Java / Spring / Quarkus and DevOps work lives in private and enterprise repositories. These public repos show how I build and document tooling in the open.
+          </p>
+        </SectionHeader>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
@@ -160,8 +168,8 @@ var Repositories = ({ repos }) => {
           <div className="mb-12">
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
-                <h3 className="text-heading font-black text-2xl mb-2">Featured Repositories</h3>
-                <p className="text-surface-500 text-sm max-w-2xl">A curated set of repositories surfaced first so visitors can scan representative work quickly.</p>
+                <h3 className="text-heading font-black text-2xl mb-2">Featured Projects</h3>
+                <p className="text-surface-500 text-sm max-w-2xl">A few public projects surfaced first — chosen by traction, documentation, and topic coverage.</p>
               </div>
             </div>
             <div className="grid lg:grid-cols-3 gap-5">
@@ -172,7 +180,8 @@ var Repositories = ({ repos }) => {
 
         <div className="grid lg:grid-cols-3 gap-6 mb-12">
           <div className="card bg-surface-800/60 border border-surface-700/50 rounded-2xl p-6">
-            <h3 className="text-heading font-bold mb-4">Language Distribution</h3>
+            <h3 className="text-heading font-bold mb-1">Language Distribution</h3>
+            <p className="text-surface-500 text-xs mb-4">Across public repositories only</p>
             <div className="h-48">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>

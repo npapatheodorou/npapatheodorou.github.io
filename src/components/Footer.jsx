@@ -3,7 +3,7 @@ import { CONFIG } from '../utils/constants';
 
 var Footer = () => (
   <footer className="border-t border-surface-700/30 py-8">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg overflow-hidden border border-surface-700/40 bg-white/90">

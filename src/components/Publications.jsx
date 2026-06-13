@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PUBLICATIONS_DATA } from '../utils/constants';
+import SectionHeader from './SectionHeader';
 
 var PUBLISHER_BRANDS = {
   IEEE: {
@@ -202,16 +203,13 @@ var Publications = function() {
 
   return (
     <section id="publications" className="py-24">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 text-sm font-semibold mb-4">
-            Peer-Reviewed Research
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Publications</h2>
-          <p className="text-surface-500 text-lg max-w-2xl mx-auto">
-            Published research spanning cybersecurity, blockchain identity, automotive systems, and healthcare informatics.
-          </p>
-        </div>
+      <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          accent="indigo"
+          eyebrow="Peer-Reviewed Research"
+          title="Publications"
+          subtitle="Published research spanning cybersecurity, blockchain identity, automotive systems, and healthcare informatics."
+        />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[

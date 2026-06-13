@@ -2,7 +2,13 @@ export const CONFIG = {
   githubUsername: 'npapatheodorou',
   contactEmail: 'n.papatheodorou@pm.me',
   resumeUrl: (process.env.PUBLIC_URL || '') + '/Papatheodorou_Nikos_CV.pdf',
+  // Drop a real headshot at public/headshot.jpg (or .png and update the ext) to
+  // replace the Gravatar — the UI falls back to Gravatar automatically if the
+  // file is missing, so nothing breaks before it's added.
+  headshotUrl: (process.env.PUBLIC_URL || '') + '/headshot.jpg',
   gravatarUrl: 'https://www.gravatar.com/avatar/919530f5105d2a1d388bf1ed6dba3e2eb29f1531e27c81dc3950564f5595f792?s=256',
+  location: 'Athens, Greece',
+  availability: 'Open to DevOps, platform & backend roles',
   headline: 'DevOps Engineer | Java • Spring • Quarkus | Secure, Scalable Systems',
   linkedIn: 'https://www.linkedin.com/in/npapatheodorou',
   name: 'Nikos Papatheodorou',
@@ -10,33 +16,35 @@ export const CONFIG = {
   subtitle: 'Building Secure, Scalable, and Automated Systems',
 };
 
+// Trimmed for recruiter scannability — fewer, higher-signal destinations.
+// `overview` and `repositories` remain reachable in-page; they are intentionally
+// not nav chips to keep the bar to ~6 items.
 export const NAV_ITEMS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'repositories', label: 'Repositories' },
+  { id: 'projects', label: 'Work' },
   { id: 'skills', label: 'Skills' },
-  { id: 'certifications', label: 'Certifications' },
-  { id: 'projects', label: 'Projects' },
-  { id: 'contributions', label: 'Contributions' },
+  { id: 'career', label: 'Experience' },
   { id: 'publications', label: 'Publications' },
-  { id: 'research', label: 'Research' },
-  { id: 'career', label: 'Career' },
+  { id: 'certifications', label: 'Certifications' },
   { id: 'contact', label: 'Contact' },
 ];
 
+// Proficiency is expressed through real years of hands-on use, not self-assigned
+// percentages (which read as junior to technical reviewers). The UI derives a
+// tier — Expert (5y+) / Advanced (3-4y) / Proficient (<3y) — from `years`.
 export const SKILLS_DATA = {
   backend: {
     title: 'Backend Development',
     icon: 'server',
     color: 'from-blue-500 to-blue-700',
     skills: [
-      { name: 'Java', level: 95, years: 6, category: 'Language' },
-      { name: 'Spring Framework', level: 92, years: 5, category: 'Framework' },
-      { name: 'Spring Boot', level: 90, years: 5, category: 'Framework' },
-      { name: 'Quarkus', level: 85, years: 3, category: 'Framework' },
-      { name: 'REST API Design', level: 90, years: 6, category: 'Architecture' },
-      { name: 'Microservices', level: 88, years: 4, category: 'Architecture' },
-      { name: 'Hibernate/JPA', level: 87, years: 5, category: 'ORM' },
-      { name: 'Maven/Gradle', level: 88, years: 6, category: 'Build Tools' },
+      { name: 'Java', years: 6, category: 'Language' },
+      { name: 'Spring Framework', years: 5, category: 'Framework' },
+      { name: 'Spring Boot', years: 5, category: 'Framework' },
+      { name: 'Quarkus', years: 3, category: 'Framework' },
+      { name: 'REST API Design', years: 6, category: 'Architecture' },
+      { name: 'Microservices', years: 4, category: 'Architecture' },
+      { name: 'Hibernate/JPA', years: 5, category: 'ORM' },
+      { name: 'Maven/Gradle', years: 6, category: 'Build Tools' },
     ],
   },
   devops: {
@@ -44,16 +52,16 @@ export const SKILLS_DATA = {
     icon: 'settings',
     color: 'from-green-500 to-emerald-700',
     skills: [
-      { name: 'CI/CD Pipelines', level: 90, years: 4, category: 'Automation' },
-      { name: 'Docker', level: 92, years: 5, category: 'Containerization' },
-      { name: 'Kubernetes', level: 85, years: 3, category: 'Orchestration' },
-      { name: 'Terraform', level: 82, years: 3, category: 'IaC' },
-      { name: 'Ansible', level: 80, years: 3, category: 'Configuration' },
-      { name: 'Jenkins', level: 88, years: 4, category: 'CI/CD' },
-      { name: 'GitHub Actions', level: 87, years: 3, category: 'CI/CD' },
-      { name: 'GitLab CI', level: 85, years: 3, category: 'CI/CD' },
-      { name: 'AWS', level: 82, years: 3, category: 'Cloud' },
-      { name: 'Linux Administration', level: 88, years: 6, category: 'Systems' },
+      { name: 'CI/CD Pipelines', years: 4, category: 'Automation' },
+      { name: 'Docker', years: 5, category: 'Containerization' },
+      { name: 'Kubernetes', years: 3, category: 'Orchestration' },
+      { name: 'Terraform', years: 3, category: 'IaC' },
+      { name: 'Ansible', years: 3, category: 'Configuration' },
+      { name: 'Jenkins', years: 4, category: 'CI/CD' },
+      { name: 'GitHub Actions', years: 3, category: 'CI/CD' },
+      { name: 'GitLab CI', years: 3, category: 'CI/CD' },
+      { name: 'AWS', years: 3, category: 'Cloud' },
+      { name: 'Linux Administration', years: 6, category: 'Systems' },
     ],
   },
   performance: {
@@ -61,14 +69,14 @@ export const SKILLS_DATA = {
     icon: 'zap',
     color: 'from-amber-500 to-orange-600',
     skills: [
-      { name: 'Database Optimization', level: 85, years: 4, category: 'Database' },
-      { name: 'PostgreSQL', level: 87, years: 5, category: 'Database' },
-      { name: 'Redis Caching', level: 83, years: 3, category: 'Caching' },
-      { name: 'System Monitoring', level: 85, years: 4, category: 'Observability' },
-      { name: 'Prometheus/Grafana', level: 82, years: 3, category: 'Monitoring' },
-      { name: 'ELK Stack', level: 78, years: 2, category: 'Logging' },
-      { name: 'Load Testing', level: 80, years: 3, category: 'Testing' },
-      { name: 'High Availability Design', level: 82, years: 3, category: 'Architecture' },
+      { name: 'Database Optimization', years: 4, category: 'Database' },
+      { name: 'PostgreSQL', years: 5, category: 'Database' },
+      { name: 'Redis Caching', years: 3, category: 'Caching' },
+      { name: 'System Monitoring', years: 4, category: 'Observability' },
+      { name: 'Prometheus/Grafana', years: 3, category: 'Monitoring' },
+      { name: 'ELK Stack', years: 2, category: 'Logging' },
+      { name: 'Load Testing', years: 3, category: 'Testing' },
+      { name: 'High Availability Design', years: 3, category: 'Architecture' },
     ],
   },
   security: {
@@ -76,13 +84,13 @@ export const SKILLS_DATA = {
     icon: 'shield',
     color: 'from-red-500 to-rose-700',
     skills: [
-      { name: 'Secure Architecture', level: 85, years: 4, category: 'Design' },
-      { name: 'OAuth2/OIDC', level: 83, years: 3, category: 'Auth' },
-      { name: 'JWT/Token Management', level: 85, years: 4, category: 'Auth' },
-      { name: 'Blockchain/SSI', level: 80, years: 2, category: 'Research' },
-      { name: 'SAST/DAST Integration', level: 78, years: 2, category: 'DevSecOps' },
-      { name: 'Secret Management', level: 82, years: 3, category: 'Security' },
-      { name: 'Network Security', level: 78, years: 3, category: 'Infrastructure' },
+      { name: 'Secure Architecture', years: 4, category: 'Design' },
+      { name: 'OAuth2/OIDC', years: 3, category: 'Auth' },
+      { name: 'JWT/Token Management', years: 4, category: 'Auth' },
+      { name: 'Blockchain/SSI', years: 2, category: 'Research' },
+      { name: 'SAST/DAST Integration', years: 2, category: 'DevSecOps' },
+      { name: 'Secret Management', years: 3, category: 'Security' },
+      { name: 'Network Security', years: 3, category: 'Infrastructure' },
     ],
   },
   research: {
@@ -90,11 +98,11 @@ export const SKILLS_DATA = {
     icon: 'book',
     color: 'from-purple-500 to-violet-700',
     skills: [
-      { name: 'C Programming', level: 80, years: 4, category: 'Language' },
-      { name: 'Python', level: 82, years: 4, category: 'Language' },
-      { name: 'Academic Writing', level: 85, years: 3, category: 'Research' },
-      { name: 'Technical Mentoring', level: 88, years: 4, category: 'Teaching' },
-      { name: 'Workshop Facilitation', level: 85, years: 3, category: 'Teaching' },
+      { name: 'C Programming', years: 4, category: 'Language' },
+      { name: 'Python', years: 4, category: 'Language' },
+      { name: 'Academic Writing', years: 3, category: 'Research' },
+      { name: 'Technical Mentoring', years: 4, category: 'Teaching' },
+      { name: 'Workshop Facilitation', years: 3, category: 'Teaching' },
     ],
   },
 };
@@ -114,12 +122,12 @@ export const PROJECTS_DATA = [
       'Automated rollback with canary analysis',
     ],
     tools: ['Jenkins', 'Docker', 'Kubernetes', 'SonarQube', 'Helm', 'ArgoCD'],
-    results: [
-      { metric: 'Deployment Time', before: '4 hours', after: '12 minutes', improvement: '95%' },
-      { metric: 'Release Frequency', before: 'Monthly', after: 'Daily', improvement: '30x' },
-      { metric: 'Rollback Success', before: '60%', after: '99.5%', improvement: '66%' },
-      { metric: 'Security Vulns', before: 'Unknown', after: 'Zero Critical', improvement: '100%' },
+    outcomes: [
+      'Replaced slow, manual releases with automated on-demand deployments',
+      'Added quality gates and security scanning (SAST/DAST/image scan) to the pipeline',
+      'Introduced safe progressive rollouts with automated rollback on failure',
     ],
+    flow: ['Commit', 'Build', 'Test', 'Scan', 'Deploy', 'Rollback'],
     icon: 'rocket',
     gradient: 'from-blue-600 to-cyan-500',
   },
@@ -137,12 +145,12 @@ export const PROJECTS_DATA = [
       'RabbitMQ for async event processing',
     ],
     tools: ['Spring Boot', 'Redis', 'PostgreSQL', 'RabbitMQ', 'Docker', 'Kubernetes'],
-    results: [
-      { metric: 'Response Time (p95)', before: '3.2s', after: '180ms', improvement: '94%' },
-      { metric: 'Concurrent Users', before: '10K', after: '100K+', improvement: '10x' },
-      { metric: 'Uptime', before: '99.2%', after: '99.95%', improvement: '99.95%' },
-      { metric: 'Memory Usage', before: '16GB', after: '4GB/service', improvement: '75%' },
+    outcomes: [
+      'Decomposed a monolith into bounded microservices behind an API gateway',
+      'Reduced tail latency with distributed caching and database read replicas',
+      'Improved horizontal scalability and isolated failures between services',
     ],
+    flow: ['Request', 'API Gateway', 'Microservices', 'Redis Cache', 'PostgreSQL'],
     icon: 'zap',
     gradient: 'from-green-600 to-emerald-500',
   },
@@ -160,12 +168,12 @@ export const PROJECTS_DATA = [
       'Environment promotion pipeline (dev → staging → prod)',
     ],
     tools: ['Terraform', 'Ansible', 'AWS', 'GitLab CI', 'InSpec', 'Vault'],
-    results: [
-      { metric: 'Provisioning Time', before: '2-3 days', after: '45 minutes', improvement: '97%' },
-      { metric: 'Config Drift', before: '4/month', after: '0/month', improvement: '100%' },
-      { metric: 'Environment Parity', before: 'Low', after: '100%', improvement: '100%' },
-      { metric: 'Cost Optimization', before: 'N/A', after: '35% reduction', improvement: '35%' },
+    outcomes: [
+      'Codified environments with reusable Terraform modules and Ansible roles',
+      'Eliminated configuration drift through GitOps-driven infrastructure changes',
+      'Made dev/staging/prod reproducible and promotable through a pipeline',
     ],
+    flow: ['Git', 'Terraform', 'Ansible', 'Provision', 'Compliance', 'Promote'],
     icon: 'layers',
     gradient: 'from-purple-600 to-violet-500',
   },
@@ -183,12 +191,12 @@ export const PROJECTS_DATA = [
       'GDPR-compliant consent management',
     ],
     tools: ['Keycloak', 'Spring Security', 'JWT', 'PostgreSQL', 'ELK Stack', 'Vault'],
-    results: [
-      { metric: 'Auth Incidents', before: '8/quarter', after: '0/quarter', improvement: '100%' },
-      { metric: 'GDPR Compliance', before: 'Partial', after: 'Full', improvement: '100%' },
-      { metric: 'SSO Coverage', before: '30%', after: '100%', improvement: '233%' },
-      { metric: 'Token Latency', before: '800ms', after: '45ms', improvement: '94%' },
+    outcomes: [
+      'Centralized authentication across services on OAuth2/OIDC with SSO',
+      'Standardized token policies and added centralized, tamper-evident audit logging',
+      'Applied SSI research concepts for user-controlled, privacy-preserving identity',
     ],
+    flow: ['Login', 'Keycloak', 'OAuth2 / OIDC', 'JWT', 'Audit Log'],
     icon: 'shield',
     gradient: 'from-red-600 to-rose-500',
   },
@@ -206,12 +214,12 @@ export const PROJECTS_DATA = [
       'PagerDuty integration with escalation policies',
     ],
     tools: ['Prometheus', 'Grafana', 'ELK Stack', 'Jaeger', 'PagerDuty', 'AlertManager'],
-    results: [
-      { metric: 'MTTR', before: '4+ hours', after: '18 minutes', improvement: '93%' },
-      { metric: 'Proactive Detection', before: '0%', after: '85%', improvement: '85%' },
-      { metric: 'Dashboard Coverage', before: '0', after: '45 dashboards', improvement: '∞' },
-      { metric: 'Alert Noise', before: 'N/A', after: '<5% false positive', improvement: '95%' },
+    outcomes: [
+      'Unified metrics, logs, and distributed traces into one observability stack',
+      'Added SLO/SLI dashboards and actionable, low-noise alerting',
+      'Reduced time-to-detection and mean-time-to-resolution for incidents',
     ],
+    flow: ['Metrics', 'Logs', 'Traces', 'Dashboards', 'Alerts'],
     icon: 'activity',
     gradient: 'from-amber-600 to-yellow-500',
   },
@@ -229,12 +237,12 @@ export const PROJECTS_DATA = [
       'Kubernetes-native health checks and scaling',
     ],
     tools: ['Quarkus', 'GraalVM', 'Kubernetes', 'Vert.x', 'Docker', 'Helm'],
-    results: [
-      { metric: 'Startup Time', before: '30 seconds', after: '0.8 seconds', improvement: '97%' },
-      { metric: 'Memory Usage', before: '512MB', after: '64MB', improvement: '87%' },
-      { metric: 'Cloud Costs', before: 'Baseline', after: '60% reduction', improvement: '60%' },
-      { metric: 'Auto-Scale', before: '45 seconds', after: '3 seconds', improvement: '93%' },
+    outcomes: [
+      'Migrated latency-critical services to Quarkus with GraalVM native images',
+      'Achieved sub-second startup and a substantially smaller memory footprint',
+      'Improved autoscaling responsiveness and reduced cloud runtime cost',
     ],
+    flow: ['Source', 'GraalVM Build', 'Native Image', 'Deploy', 'Autoscale'],
     icon: 'cpu',
     gradient: 'from-teal-600 to-cyan-500',
   },
@@ -306,6 +314,20 @@ export const CAREER_DATA = [
 ];
 
 export const RESEARCH_DATA = {
+  education: [
+    {
+      degree: 'MSc — Hellenic Mediterranean University',
+      field: 'Informatics Engineering',
+      period: '2019 – 2021',
+      detail: 'Thesis on Blockchain-based Self-Sovereign Identity (SSI) — graded 10/10.',
+    },
+    {
+      degree: 'BSc — Hellenic Mediterranean University',
+      field: 'Informatics Engineering',
+      period: '2014 – 2019',
+      detail: 'Foundations in software engineering, systems, databases, and security.',
+    },
+  ],
   thesis: {
     title: 'Blockchain-based Self-Sovereign Identity (SSI)',
     degree: 'Master of Science',
@@ -529,9 +551,11 @@ export const LANGUAGE_COLORS = {
   Makefile: '#427819',
 };
 
+// Verifiable, non-inflated facts only — each is backed by another section on the
+// page (Career, Publications, Certifications), so a recruiter can confirm them.
 export const STATS_OVERVIEW = [
   { label: 'Years Experience', value: '6+', icon: 'calendar', color: 'text-blue-400' },
-  { label: 'Publications', value: '4', icon: 'server', color: 'text-green-400' },
-  { label: 'Uptime Achieved', value: '99.95%', icon: 'activity', color: 'text-amber-400' },
-  { label: 'Deploy Reduction', value: '95%', icon: 'rocket', color: 'text-purple-400' },
+  { label: 'Peer-Reviewed Papers', value: '4', icon: 'book', color: 'text-purple-400' },
+  { label: 'Certifications', value: '5', icon: 'shield', color: 'text-emerald-400' },
+  { label: 'Engineering Roles', value: '3', icon: 'rocket', color: 'text-amber-400' },
 ];

@@ -6,14 +6,14 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('overview');
   const [mobileOpen, setMobileOpen] = useState(false);
-  const visibleNavItems = NAV_ITEMS.filter(function(item) {
-    return item.id !== 'contributions' && item.id !== 'research';
-  });
+  // NAV_ITEMS is a stable module constant — used directly so the scroll listener
+  // isn't re-bound on every render.
+  const visibleNavItems = NAV_ITEMS;
 
   useEffect(() => {
     var handleScroll = () => {
       setScrolled(window.scrollY > 20);
-      var current = visibleNavItems.map(i => i.id).find(id => {
+      var current = NAV_ITEMS.map(i => i.id).find(id => {
         var el = document.getElementById(id);
         if (el) { var r = el.getBoundingClientRect(); return r.top <= 100 && r.bottom >= 100; }
         return false;
@@ -22,13 +22,13 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [visibleNavItems]);
+  }, []);
 
   var handleNav = (id) => { smoothScroll(id); setMobileOpen(false); };
 
   return (
     <nav className={'fixed top-0 left-0 right-0 z-50 transition-all duration-300 ' + (scrolled ? 'glass-nav backdrop-blur-xl shadow-sm' : 'bg-transparent')}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <button onClick={() => handleNav('overview')} className="flex items-center gap-3 group flex-shrink-0 mr-3 xl:mr-5">
             <div className="w-9 h-9 rounded-xl overflow-hidden border border-surface-700/40 shadow-lg shadow-primary-500/10 bg-white/90">
@@ -47,7 +47,8 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           <div className="hidden lg:flex items-center gap-1">
             {visibleNavItems.map(item => (
               <button key={item.id} onClick={() => handleNav(item.id)}
-                className={'px-3.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ' +
+                aria-current={activeSection === item.id ? 'true' : undefined}
+                className={'px-3.5 py-2 rounded-lg text-sm font-medium transition-colors duration-200 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (activeSection === item.id
                     ? 'bg-primary-500/15 text-primary-600'
                     : 'text-surface-500 hover:text-heading hover:bg-surface-800/50')}>
@@ -59,8 +60,9 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           <div className="flex items-center gap-2">
             {/* Theme Toggle */}
             <button onClick={toggleDarkMode}
-              className="relative w-14 h-8 rounded-full bg-surface-700/30 border border-surface-700/50 flex items-center transition-all duration-300 hover:border-primary-500/30 focus:outline-none"
-              aria-label="Toggle theme">
+              className="relative w-14 h-8 rounded-full bg-surface-700/30 border border-surface-700/50 flex items-center transition-colors duration-300 hover:border-primary-500/30 cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              aria-label={darkMode ? 'Switch to light theme' : 'Switch to dark theme'}
+              aria-pressed={darkMode}>
               <div className={'absolute w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 shadow-sm ' +
                 (darkMode ? 'translate-x-7 bg-surface-600' : 'translate-x-1 bg-amber-400')}>
                 {darkMode ? (
@@ -77,8 +79,9 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
 
             {/* Mobile menu */}
             <button onClick={() => setMobileOpen(!mobileOpen)}
-              className="lg:hidden w-9 h-9 rounded-lg bg-surface-800/50 hover:bg-surface-700/50 flex items-center justify-center text-surface-400 hover:text-heading transition-all"
-              aria-label="Menu">
+              className="lg:hidden w-9 h-9 rounded-lg bg-surface-800/50 hover:bg-surface-700/50 flex items-center justify-center text-surface-400 hover:text-heading transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileOpen}>
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {mobileOpen
                   ? <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -92,7 +95,8 @@ const Navbar = ({ darkMode, toggleDarkMode }) => {
           <div className="grid grid-cols-2 gap-1 pt-2">
             {visibleNavItems.map(item => (
               <button key={item.id} onClick={() => handleNav(item.id)}
-                className={'px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ' +
+                aria-current={activeSection === item.id ? 'true' : undefined}
+                className={'px-4 py-3 rounded-lg text-sm font-medium text-left transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (activeSection === item.id ? 'bg-primary-500/15 text-primary-600' : 'text-surface-500 hover:text-heading hover:bg-surface-800/50')}>
                 {item.label}
               </button>

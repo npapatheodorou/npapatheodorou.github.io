@@ -1,11 +1,12 @@
 import React from 'react';
 import { CONFIG } from '../utils/constants';
+import ResumeModal from './ResumeModal';
 
 var Contact = () => (
   <section id="contact" className="py-24">
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-3xl">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-blue-900" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-accent-800" />
         <div className="absolute inset-0 opacity-10" style={{
           backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
           backgroundSize: '32px 32px'
@@ -50,10 +51,10 @@ var Contact = () => (
               className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
               Connect on LinkedIn
             </a>
-            <a href={CONFIG.resumeUrl} download
-              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
-              Download Resume
-            </a>
+            <ResumeModal
+              triggerLabel="Preview Resume"
+              triggerClassName="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-colors backdrop-blur-sm w-full lg:w-auto justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            />
             <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
               View GitHub

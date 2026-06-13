@@ -1,21 +1,41 @@
 import React, { useState } from 'react';
 import { SKILLS_DATA } from '../utils/constants';
+import SectionHeader from './SectionHeader';
 
-var SkillBar = ({ skill, visible }) => (
-  <div className="group">
-    <div className="flex items-center justify-between mb-1.5">
-      <div className="flex items-center gap-2">
+// Proficiency tier is derived from real hands-on years, not a self-assigned
+// percentage. The 3-segment meter mirrors the tier so it reads at a glance
+// without implying false precision.
+var getTier = function (years) {
+  if (years >= 5) return { label: 'Expert', segments: 3, color: 'text-emerald-500', bar: 'bg-emerald-500' };
+  if (years >= 3) return { label: 'Advanced', segments: 2, color: 'text-primary-500', bar: 'bg-primary-500' };
+  return { label: 'Proficient', segments: 1, color: 'text-surface-400', bar: 'bg-surface-400' };
+};
+
+var SkillRow = ({ skill }) => {
+  var tier = getTier(skill.years);
+  return (
+    <div className="flex items-center justify-between gap-3 py-2.5 border-b border-surface-700/20 last:border-0">
+      <div className="min-w-0">
         <span className="text-heading text-sm font-semibold">{skill.name}</span>
-        <span className="text-surface-600 text-xs opacity-0 group-hover:opacity-100 transition-opacity">{skill.years}y</span>
+        <span className="hidden sm:inline text-surface-500 text-xs ml-2">{skill.category}</span>
       </div>
-      <span className="text-surface-500 text-xs font-mono font-bold">{skill.level}%</span>
+      <div className="flex items-center gap-2.5 sm:gap-3 flex-shrink-0">
+        <span className="text-surface-500 text-xs font-mono tabular-nums">{skill.years}y</span>
+        <div className="hidden min-[400px]:flex items-center gap-1" aria-hidden="true">
+          {[0, 1, 2].map(function (i) {
+            return (
+              <span
+                key={i}
+                className={'h-1.5 w-5 rounded-full ' + (i < tier.segments ? tier.bar : 'bg-surface-700/40')}
+              />
+            );
+          })}
+        </div>
+        <span className={'text-xs font-bold w-[64px] text-right ' + tier.color}>{tier.label}</span>
+      </div>
     </div>
-    <div className="w-full h-2 bg-surface-700/30 rounded-full overflow-hidden">
-      <div className="h-full rounded-full transition-all duration-1000 ease-out bg-gradient-to-r from-primary-500 to-primary-400"
-        style={{ width: visible ? skill.level + '%' : '0%' }} />
-    </div>
-  </div>
-);
+  );
+};
 
 var icons = {
   server: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />,
@@ -27,42 +47,47 @@ var icons = {
 
 var Skills = () => {
   const [active, setActive] = useState('backend');
-  const [vis, setVis] = useState(true);
   var data = SKILLS_DATA[active];
-
-  var change = (k) => { setVis(false); setTimeout(() => { setActive(k); setVis(true); }, 200); };
 
   return (
     <section id="skills" className="py-24 bg-surface-900/40">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-primary-500/10 text-primary-600 dark:text-primary-400 text-sm font-semibold mb-4">Technical Expertise</span>
-          <h2 className="text-4xl lg:text-5xl font-black text-heading mb-4 tracking-tight">Skills & Technologies</h2>
-          <p className="text-surface-500 text-lg max-w-2xl mx-auto">Comprehensive expertise spanning backend development, DevOps, and security engineering.</p>
-        </div>
+      <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader
+          eyebrow="Technical Expertise"
+          title="Skills & Technologies"
+          subtitle="Proficiency shown as hands-on years and tier — not arbitrary percentages."
+        >
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 mt-6 text-xs font-semibold">
+            <span className="inline-flex items-center gap-1.5 text-emerald-500"><span className="h-1.5 w-5 rounded-full bg-emerald-500" />Expert · 5y+</span>
+            <span className="inline-flex items-center gap-1.5 text-primary-500"><span className="h-1.5 w-5 rounded-full bg-primary-500" />Advanced · 3–4y</span>
+            <span className="inline-flex items-center gap-1.5 text-surface-400"><span className="h-1.5 w-5 rounded-full bg-surface-400" />Proficient · &lt;3y</span>
+          </div>
+        </SectionHeader>
 
         <div className="grid lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-24 lg:self-start">
+          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-24 lg:self-start" role="tablist" aria-label="Skill categories">
             {Object.entries(SKILLS_DATA).map(([k, v]) => (
-              <button key={k} onClick={() => change(k)}
-                className={'card flex items-center gap-3 px-5 py-4 rounded-xl text-left w-full transition-all ' +
+              <button key={k} onClick={() => setActive(k)}
+                role="tab"
+                aria-selected={active === k}
+                className={'card flex items-center gap-3 px-5 py-4 rounded-xl text-left w-full transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (active === k ? 'bg-primary-500/10 border border-primary-500/25 text-heading' : 'bg-surface-800/40 border border-surface-700/50 text-surface-500 hover:text-heading hover:border-surface-600')}>
-                <svg className={'w-5 h-5 flex-shrink-0 ' + (active === k ? 'text-primary-500' : 'text-surface-500')} fill="none" viewBox="0 0 24 24" stroke="currentColor">{icons[v.icon]}</svg>
+                <svg className={'w-5 h-5 flex-shrink-0 ' + (active === k ? 'text-primary-500' : 'text-surface-500')} fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">{icons[v.icon]}</svg>
                 <div><span className="font-bold text-sm block">{v.title}</span><span className="text-xs text-surface-500">{v.skills.length} skills</span></div>
               </button>
             ))}
           </div>
 
           <div className="lg:col-span-8">
-            <div className={'card bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-8 transition-all duration-300 ' + (vis ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2')}>
-              <div className="flex items-center gap-3 mb-8">
+            <div className="card bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-6 sm:p-8">
+              <div className="flex items-center gap-3 mb-6">
                 <div className={'w-11 h-11 rounded-xl bg-gradient-to-br ' + data.color + ' flex items-center justify-center text-white shadow-lg'}>
                   <span className="text-lg font-extrabold">{data.skills.length}</span>
                 </div>
-                <div><h3 className="text-heading font-bold text-lg">{data.title}</h3><p className="text-surface-500 text-sm">Proficiency breakdown</p></div>
+                <div><h3 className="text-heading font-bold text-lg">{data.title}</h3><p className="text-surface-500 text-sm">Hands-on experience breakdown</p></div>
               </div>
-              <div className="space-y-5">
-                {data.skills.map(s => <SkillBar key={s.name} skill={s} visible={vis} />)}
+              <div>
+                {data.skills.map(s => <SkillRow key={s.name} skill={s} />)}
               </div>
               <div className="mt-8 pt-6 border-t border-surface-700/30">
                 <h4 className="text-surface-500 text-xs uppercase tracking-widest font-bold mb-3">Categories</h4>

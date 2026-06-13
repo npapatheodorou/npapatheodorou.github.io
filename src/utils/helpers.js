@@ -47,41 +47,6 @@ export const calculateLanguageStats = (repos) => {
     .slice(0, 10);
 };
 
-export const generateContributionData = () => {
-  const data = [];
-  const now = new Date();
-  for (let i = 364; i >= 0; i--) {
-    const date = new Date(now);
-    date.setDate(date.getDate() - i);
-    const dayOfWeek = date.getDay();
-    const isWeekday = dayOfWeek > 0 && dayOfWeek < 6;
-
-    let count;
-    const rand = Math.random();
-    if (rand < 0.15) count = 0;
-    else if (rand < 0.4) count = isWeekday ? Math.floor(Math.random() * 3) + 1 : Math.floor(Math.random() * 2);
-    else if (rand < 0.7) count = isWeekday ? Math.floor(Math.random() * 5) + 2 : Math.floor(Math.random() * 3) + 1;
-    else if (rand < 0.9) count = isWeekday ? Math.floor(Math.random() * 8) + 4 : Math.floor(Math.random() * 4) + 1;
-    else count = Math.floor(Math.random() * 12) + 6;
-
-    data.push({
-      date: date.toISOString().split('T')[0],
-      count,
-      level: count === 0 ? 0 : count <= 2 ? 1 : count <= 5 ? 2 : count <= 8 ? 3 : 4,
-    });
-  }
-  return data;
-};
-
-export const getContributionColor = (level, isDark) => {
-  if (isDark === false) {
-    var lightColors = ['#ebedf0', '#9be9a8', '#40c463', '#30a14e', '#216e39'];
-    return lightColors[level] || lightColors[0];
-  }
-  var darkColors = ['#161b22', '#0e4429', '#006d32', '#26a641', '#39d353'];
-  return darkColors[level] || darkColors[0];
-};
-
 export const smoothScroll = (id) => {
   const element = document.getElementById(id);
   if (element) {
