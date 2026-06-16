@@ -34,7 +34,7 @@ var SectionHeader = ({ eyebrow, title, subtitle, accent = 'primary', children })
         <span className={'w-1.5 h-1.5 rounded-full ' + a.dot} />
         {eyebrow}
       </span>
-      <h2 className="text-4xl lg:text-5xl font-black tracking-tight text-gradient mb-5">{title}</h2>
+      <h2 className="text-4xl lg:text-5xl font-black tracking-tight text-gradient leading-[1.25] pb-2 mb-5">{title}</h2>
       <div className={'mx-auto h-1 w-16 rounded-full bg-gradient-to-r to-transparent mb-5 ' + a.line} />
       {subtitle && <p className="text-surface-500 text-lg">{subtitle}</p>}
       {children}

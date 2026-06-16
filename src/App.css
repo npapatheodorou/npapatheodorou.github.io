@@ -91,6 +91,9 @@ p { text-wrap: pretty; }
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
+  /* Descenders (g, y, p) get clipped by background-clip:text when the line box
+     is tight — give the painted glyphs vertical breathing room. */
+  padding-bottom: 0.16em;
 }
 
 /* Card shadow utility */

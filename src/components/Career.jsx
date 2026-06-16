@@ -100,6 +100,42 @@ var CareerCard = ({ item }) => {
         <MetaPill label="Location" value={item.location || 'N/A'} />
       </div>
 
+      {item.roles && item.roles.length > 0 && (
+        <div className="mb-4 rounded-xl border border-surface-700/30 bg-surface-900/30 p-4 sm:p-5">
+          <div className="flex items-center justify-between mb-3.5">
+            <p className="text-surface-500 text-xs font-bold uppercase tracking-wider">Role Progression</p>
+            <span className="text-[11px] font-semibold text-surface-600">{item.roles.length} positions</span>
+          </div>
+          <div className="relative pl-7">
+            <div className="absolute left-[6px] top-2 bottom-2 w-px bg-gradient-to-b from-surface-600/60 to-surface-700/30" />
+            <div className="space-y-4">
+              {item.roles.map(function(role, idx) {
+                return (
+                  <div key={role.title} className="relative">
+                    <div className={'absolute -left-[26px] top-1 w-3 h-3 rounded-full ring-4 ring-surface-900 ' + (role.current ? tone.dot + ' animate-pulse' : 'bg-surface-600')} />
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-heading text-sm font-bold leading-tight">{role.title}</span>
+                      {role.promoted && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-500">
+                          <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
+                          </svg>
+                          Promoted
+                        </span>
+                      )}
+                      {role.current && (
+                        <span className={'px-2 py-0.5 rounded-full text-[10px] font-bold ' + tone.badge}>Current</span>
+                      )}
+                    </div>
+                    <p className="text-surface-500 text-xs mt-1 font-medium">{role.period} <span className="text-surface-600">·</span> {role.duration}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
+
       {(item.summary || item.description) && (
         <p className="text-surface-400 text-sm leading-relaxed mb-4">{item.summary || item.description}</p>
       )}

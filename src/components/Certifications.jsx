@@ -202,7 +202,7 @@ var Certifications = function() {
             {[
               { name: 'Oracle', sub: 'Java SE 17', logo: 'oracle' },
               { name: 'AWS', sub: 'Cloud Practitioner', logo: 'aws' },
-              { name: 'Microsoft Azure', sub: 'Azure Admin', logo: 'microsoft' },
+              { name: 'Microsoft Azure', sub: 'DevOps Expert · Azure Admin', logo: 'microsoft' },
               { name: 'Vaadin', sub: 'v14 & v24', logo: 'vaadin' },
             ].map(function(item) {
               var brand = BRAND_LOGOS[item.logo] || BRAND_LOGOS.oracle;
