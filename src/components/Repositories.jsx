@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { calculateLanguageStats, formatDate, formatNumber, getLanguageColor } from '../utils/helpers';
 import { FEATURED_REPO_NAMES, APP_BY_REPO } from '../utils/constants';
+import { AppIcon } from './Apps';
 
 // A repo counts as "mine" if it is not a fork, or if it is explicitly curated
 // (a substantially reworked fork still belongs in the showcase).
@@ -63,7 +64,8 @@ var FeaturedRepoCard = ({ repo }) => {
   return (
     <article className="card group flex flex-col bg-gradient-to-br from-primary-500/10 to-surface-800/60 border border-primary-500/20 rounded-2xl p-6 hover:border-primary-500/40" aria-labelledby={'repo-' + repo.id}>
       <div className="flex items-start justify-between gap-4 mb-4">
-        <div className="min-w-0">
+        {app && <AppIcon app={app} className="w-10 h-10" />}
+        <div className="min-w-0 flex-1">
           <div className="text-primary-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Featured Repository</div>
           <h3 id={'repo-' + repo.id} className="text-heading font-bold text-xl leading-snug">
             <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary-500 transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
@@ -128,7 +130,8 @@ var Repositories = ({ repos }) => {
     var items = repos.filter(function(repo) { return isOwn(repo) && !repo.archived; });
     if (filter !== 'all') items = items.filter(function(repo) { return repo.language === filter; });
     items.sort(function(a, b) {
-      if (sortBy === 'stars') return b.stargazers_count - a.stargazers_count;
+      if (sortBy === 'stars') return b.stargazers_count - a.stargazers_count || b.forks_count - a.forks_count;
+      if (sortBy === 'forks') return b.forks_count - a.forks_count || b.stargazers_count - a.stargazers_count;
       if (sortBy === 'name') return a.name.localeCompare(b.name);
       if (sortBy === 'created') return new Date(b.created_at) - new Date(a.created_at);
       return new Date(b.pushed_at) - new Date(a.pushed_at);
@@ -143,8 +146,13 @@ var Repositories = ({ repos }) => {
     var byName = {};
     repos.forEach(function(repo) { byName[repo.name] = repo; });
     var pinned = FEATURED_REPO_NAMES
-      .map(function(name) { return byName[name]; })
-      .filter(Boolean);
+      .map(function(name, order) { return byName[name] ? { repo: byName[name], order: order } : null; })
+      .filter(Boolean)
+      // Stars first, then forks, then the curated order as a stable tiebreak.
+      .sort(function(a, b) {
+        return (b.repo.stargazers_count - a.repo.stargazers_count) || (b.repo.forks_count - a.repo.forks_count) || (a.order - b.order);
+      })
+      .map(function(item) { return item.repo; });
     var pinnedNames = pinned.map(function(repo) { return repo.name; });
 
     var scored = repos
@@ -263,6 +271,7 @@ var Repositories = ({ repos }) => {
             className="px-4 py-2.5 min-h-[44px] bg-surface-800 border border-surface-700 rounded-lg text-surface-300 text-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
             <option value="updated">Recently Updated</option>
             <option value="stars">Most Stars</option>
+            <option value="forks">Most Forks</option>
             <option value="created">Newest First</option>
             <option value="name">Alphabetical</option>
           </select>

@@ -268,9 +268,9 @@ export const APPS_DATA = [
     liveUrl: 'https://notesilo.vercel.app/',
     repoUrl: 'https://github.com/npapatheodorou/notesilo',
     icon: 'notes',
+    iconSrc: '/icons/apps/notesilo.svg',
     gradient: 'from-primary-600 to-accent-500',
     noBackend: true,
-    featured: true,
   },
   {
     id: 'xbs-pwa',
@@ -287,6 +287,7 @@ export const APPS_DATA = [
     liveUrl: 'https://xbs-pwa.vercel.app/',
     repoUrl: 'https://github.com/npapatheodorou/xbs-pwa',
     icon: 'bookmark',
+    iconSrc: '/icons/apps/xbs-pwa.png',
     gradient: 'from-purple-600 to-violet-500',
     noBackend: true,
   },
@@ -305,6 +306,10 @@ export const APPS_DATA = [
     liveUrl: 'https://nordconf-wireguard.vercel.app/',
     repoUrl: 'https://github.com/npapatheodorou/nordconf-wireguard',
     icon: 'key',
+    iconSrc: '/icons/apps/nordconf-wireguard.svg',
+    // Shield-on-transparent favicon; brand navy behind it so it reads in light mode.
+    iconBg: '#0d1421',
+    iconPad: true,
     gradient: 'from-blue-600 to-cyan-500',
     noBackend: true,
   },
@@ -323,6 +328,7 @@ export const APPS_DATA = [
     liveUrl: 'https://loadoutify.vercel.app/',
     repoUrl: null,
     icon: 'package',
+    iconSrc: '/icons/apps/loadoutify.svg',
     gradient: 'from-amber-600 to-orange-500',
     noBackend: true,
   },
@@ -341,6 +347,7 @@ export const APPS_DATA = [
     liveUrl: 'https://cudy-openwrt-tutorial.vercel.app/',
     repoUrl: 'https://github.com/npapatheodorou/cudy-openwrt-tutorial',
     icon: 'wifi',
+    iconSrc: '/icons/apps/cudy-openwrt-tutorial.svg',
     gradient: 'from-green-600 to-emerald-500',
     ctaLabel: 'Read guide',
     noBackend: false,
@@ -364,7 +371,6 @@ export const APPS_DATA = [
     gradient: 'from-rose-600 to-red-500',
     ctaLabel: 'View on GitHub',
     noBackend: true,
-    featured: true,
   },
 ];
 
