@@ -382,11 +382,6 @@ export const FEATURED_REPO_NAMES = APPS_DATA
   .filter(function (app) { return app.repoUrl; })
   .map(function (app) { return app.repoUrl.split('/').pop(); });
 
-export const APP_BY_REPO = APPS_DATA.reduce(function (acc, app) {
-  if (app.repoUrl) acc[app.repoUrl.split('/').pop()] = app;
-  return acc;
-}, {});
-
 export const CAREER_DATA = [
   {
     id: 1,

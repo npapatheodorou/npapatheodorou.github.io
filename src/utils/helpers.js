@@ -7,12 +7,13 @@ export const formatDate = (dateString) => {
   const diffMs = now - date;
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
+  var plural = function (n, unit) { return n + ' ' + unit + (n === 1 ? '' : 's') + ' ago'; };
   if (diffDays === 0) return 'Today';
   if (diffDays === 1) return 'Yesterday';
-  if (diffDays < 7) return diffDays + ' days ago';
-  if (diffDays < 30) return Math.floor(diffDays / 7) + ' weeks ago';
-  if (diffDays < 365) return Math.floor(diffDays / 30) + ' months ago';
-  return Math.floor(diffDays / 365) + ' years ago';
+  if (diffDays < 7) return plural(diffDays, 'day');
+  if (diffDays < 30) return plural(Math.floor(diffDays / 7), 'week');
+  if (diffDays < 365) return plural(Math.floor(diffDays / 30), 'month');
+  return plural(Math.floor(diffDays / 365), 'year');
 };
 
 export const getLanguageColor = (language) => {
