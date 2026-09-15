@@ -19,13 +19,14 @@ export const CONFIG = {
 // Trimmed for recruiter scannability — fewer, higher-signal destinations.
 // `overview` and `repositories` remain reachable in-page; they are intentionally
 // not nav chips to keep the bar to ~6 items.
+// Order mirrors the page: Work → Apps → Experience → Skills → Certifications → Publications → Contact.
 export const NAV_ITEMS = [
   { id: 'projects', label: 'Work' },
   { id: 'apps', label: 'Apps' },
-  { id: 'skills', label: 'Skills' },
   { id: 'career', label: 'Experience' },
-  { id: 'publications', label: 'Publications' },
+  { id: 'skills', label: 'Skills' },
   { id: 'certifications', label: 'Certifications' },
+  { id: 'publications', label: 'Publications' },
   { id: 'contact', label: 'Contact' },
 ];
 

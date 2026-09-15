@@ -19,11 +19,15 @@ import SectionSkeleton from './components/SectionSkeleton';
 import useGitHub from './hooks/useGitHub';
 import { CONFIG } from './utils/constants';
 
+// New key so visitors who had a device-derived value stored under the old
+// 'theme' key start from the light default like everyone else.
+var THEME_KEY = 'theme-preference';
+
 const App = () => {
+  // Light is the default for every first visit; the OS preference is
+  // deliberately ignored. The toggle persists the visitor's explicit choice.
   const [darkMode, setDarkMode] = useState(() => {
-    var saved = localStorage.getItem('theme');
-    if (saved) return saved === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    try { return localStorage.getItem(THEME_KEY) === 'dark'; } catch (e) { return false; }
   });
 
   const { profile, repos, loading, error, refetch } = useGitHub(CONFIG.githubUsername);
@@ -36,7 +40,7 @@ const App = () => {
       document.documentElement.classList.remove('dark');
       document.documentElement.classList.add('light');
     }
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light');
+    localStorage.setItem(THEME_KEY, darkMode ? 'dark' : 'light');
   }, [darkMode]);
 
   var toggleDarkMode = () => setDarkMode(!darkMode);
