@@ -3,7 +3,7 @@ import { RESEARCH_DATA } from '../utils/constants';
 import SectionHeader from './SectionHeader';
 
 var Research = () => (
-  <section id="research" className="py-24 bg-surface-900/40">
+  <section id="research" className="py-20 bg-surface-900/40">
     <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
       <SectionHeader
         accent="purple"
@@ -13,7 +13,7 @@ var Research = () => (
       />
 
       {/* Education */}
-      <div className="grid sm:grid-cols-2 gap-5 mb-12 max-w-4xl mx-auto">
+      <div className="grid sm:grid-cols-2 gap-5 mb-8 max-w-4xl mx-auto">
         {RESEARCH_DATA.education.map(function (ed) {
           return (
             <div key={ed.degree} className="card bg-surface-800/60 border border-surface-700/50 rounded-2xl p-6">
@@ -37,7 +37,7 @@ var Research = () => (
       </div>
 
       {/* MSc thesis */}
-      <div className="card bg-gradient-to-br from-purple-500/5 to-surface-800/60 border border-purple-500/20 rounded-2xl p-8 mb-12">
+      <div className="card bg-gradient-to-br from-purple-500/5 to-surface-800/60 border border-purple-500/20 rounded-2xl p-6 sm:p-8 mb-8">
         <div className="flex items-start gap-4 mb-6">
           <div className="w-14 h-14 rounded-2xl bg-purple-500/15 flex items-center justify-center flex-shrink-0">
             <svg className="w-7 h-7 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -66,15 +66,15 @@ var Research = () => (
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
+      <div>
         <div>
-          <h3 className="flex items-center gap-2 text-heading font-black text-xl mb-6">
+          <h3 className="flex items-center gap-2 text-heading font-black text-xl mb-5">
             <svg className="w-5 h-5 text-primary-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0-11a3 3 0 01-3-3V5a3 3 0 116 0v3a3 3 0 01-3 3z" />
             </svg>
             Presentations & Workshops
           </h3>
-          <div className="space-y-4">{RESEARCH_DATA.presentations.map((p, i) => (
+          <div className="grid sm:grid-cols-2 gap-4">{RESEARCH_DATA.presentations.map((p, i) => (
             <div key={i} className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 hover:border-primary-500/20">
               <div className="flex items-center gap-2 mb-2">
                 <span className="px-2 py-0.5 text-xs font-bold bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-full">{p.type}</span>
@@ -84,28 +84,6 @@ var Research = () => (
               <p className="text-surface-500 text-sm">{p.description}</p>
             </div>
           ))}</div>
-        </div>
-        <div>
-          <h3 className="flex items-center gap-2 text-heading font-black text-xl mb-6">
-            <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422A12.083 12.083 0 0112 21.5a12.083 12.083 0 01-6.16-10.922L12 14z" />
-            </svg>
-            Teaching Experience
-          </h3>
-          <div className="space-y-4">
-            {RESEARCH_DATA.teaching.map((c, i) => (
-              <div key={i} className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 hover:border-green-500/20">
-                <span className="px-2 py-0.5 text-xs font-bold bg-green-500/10 text-green-600 dark:text-green-400 rounded-full">{c.level}</span>
-                <h4 className="text-heading font-bold mb-2 mt-2">{c.course}</h4>
-                <p className="text-surface-500 text-sm">{c.description}</p>
-              </div>
-            ))}
-            <div className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 hover:border-amber-500/20">
-              <span className="px-2 py-0.5 text-xs font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400 rounded-full">Mentorship</span>
-              <h4 className="text-heading font-bold mb-2 mt-2">Technical Mentoring & Tutoring</h4>
-              <p className="text-surface-500 text-sm">One-on-one mentoring for students and junior developers, guiding capstone projects and engineering best practices.</p>
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -34,13 +34,13 @@ var ACCENTS = {
 var SectionHeader = ({ eyebrow, title, subtitle, accent = 'primary', children }) => {
   var a = ACCENTS[accent] || ACCENTS.primary;
   return (
-    <div className="text-center mb-14 sm:mb-16 max-w-3xl mx-auto">
+    <div className="text-center mb-10 sm:mb-12 max-w-3xl mx-auto">
       <span className={'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-semibold mb-5 ' + a.pill}>
         <span className={'w-1.5 h-1.5 rounded-full ' + a.dot} />
         {eyebrow}
       </span>
-      <h2 className="text-4xl lg:text-5xl font-black tracking-tight text-gradient leading-[1.25] pb-2 mb-5">{title}</h2>
-      <div className={'mx-auto h-1 w-16 rounded-full bg-gradient-to-r to-transparent mb-5 ' + a.line} />
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-gradient leading-[1.25] pb-2 mb-4">{title}</h2>
+      <div className={'mx-auto h-1 w-16 rounded-full bg-gradient-to-r to-transparent mb-4 ' + a.line} />
       {subtitle && <p className="text-surface-500 text-lg">{subtitle}</p>}
       {children}
     </div>

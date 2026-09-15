@@ -2,16 +2,8 @@ import React from 'react';
 import { CONFIG } from '../utils/constants';
 import ResumeModal from './ResumeModal';
 
-// Value-prop glyphs (Heroicons outline) — SVG rather than emoji so they render
-// identically across platforms and inherit the card's colour.
-var PILLAR_ICONS = {
-  lock: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />,
-  cog: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></>,
-  gauge: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />,
-};
-
 var Contact = () => (
-  <section id="contact" className="py-24">
+  <section id="contact" className="py-20">
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="relative overflow-hidden rounded-3xl">
         <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-accent-800" />
@@ -20,32 +12,17 @@ var Contact = () => (
           backgroundSize: '32px 32px'
         }} />
 
-        <div className="relative px-8 py-16 sm:px-16 sm:py-20 text-center">
+        <div className="relative px-6 py-14 sm:px-16 sm:py-16 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 mb-8 backdrop-blur-sm">
             <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
             <span className="text-white/90 text-sm font-semibold">Open to full-time and consulting opportunities</span>
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-5 tracking-tight">Let's Build Something Great</h2>
-          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-8 leading-relaxed">
             I am open to DevOps, platform engineering, backend, and cloud delivery roles.
             If you need faster releases, stronger reliability, or better engineering automation, let's talk.
           </p>
-
-          <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto mb-10">
-            {[
-              { title: 'Best For', desc: 'Platform engineering, cloud delivery, Java services, and DevOps modernization.' },
-              { title: 'What You Get', desc: 'A practical engineer who can design, implement, and operationalize the solution.' },
-              { title: 'Collaboration', desc: 'Happy to discuss roles, consulting, architecture reviews, or delivery challenges.' },
-            ].map(function(item) {
-              return (
-                <div key={item.title} className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-5 text-left">
-                  <h3 className="text-white font-bold mb-2">{item.title}</h3>
-                  <p className="text-white/80 text-sm leading-relaxed">{item.desc}</p>
-                </div>
-              );
-            })}
-          </div>
 
           <div className="flex flex-col lg:flex-row lg:flex-wrap items-center justify-center gap-4 mb-8">
             <a href={'mailto:' + CONFIG.contactEmail}
@@ -81,25 +58,6 @@ var Contact = () => (
             <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer" className="text-white/90 font-medium hover:text-white transition-colors py-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               GitHub
             </a>
-          </div>
-
-          <div className="grid sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-12">
-            {[
-              { icon: 'lock', eyebrow: 'Security', title: 'Security-First', desc: 'Secure architecture and DevSecOps practices.' },
-              { icon: 'cog', eyebrow: 'Automation', title: 'Automation-Driven', desc: 'CI/CD, infrastructure as code, and repeatable delivery.' },
-              { icon: 'gauge', eyebrow: 'Reliability', title: 'Performance-Focused', desc: 'Scalable services with strong operational discipline.' }
-            ].map(function(item) {
-              return (
-                <div key={item.title} className="text-center">
-                  <div className="w-14 h-14 bg-white/10 rounded-2xl border border-white/10 flex items-center justify-center mx-auto mb-3 backdrop-blur-sm text-white shadow-lg">
-                    <svg aria-hidden="true" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">{PILLAR_ICONS[item.icon]}</svg>
-                  </div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.22em] text-white/80 mb-2">{item.eyebrow}</div>
-                  <h4 className="text-white font-bold text-sm mb-1">{item.title}</h4>
-                  <p className="text-white/75 text-xs leading-relaxed">{item.desc}</p>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>

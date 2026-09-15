@@ -89,7 +89,7 @@ var Projects = () => {
   var filtered = filter === 'all' ? PROJECTS_DATA : PROJECTS_DATA.filter(function(project) { return project.category === filter; });
 
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="py-20">
       <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           eyebrow="Featured Work"

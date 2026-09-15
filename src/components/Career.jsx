@@ -64,13 +64,6 @@ var Logo = ({ item }) => {
   );
 };
 
-var MetaPill = ({ label, value }) => (
-  <div className="rounded-lg border border-surface-700/40 bg-surface-900/40 px-3 py-2">
-    <div className="text-[11px] uppercase tracking-wider text-surface-500 font-bold">{label}</div>
-    <div className="text-sm text-heading font-semibold mt-0.5">{value}</div>
-  </div>
-);
-
 var CareerCard = ({ item }) => {
   var tone = tones[item.type] || tones.past;
 
@@ -94,11 +87,17 @@ var CareerCard = ({ item }) => {
         </div>
       </div>
 
-      <div className="grid sm:grid-cols-3 gap-2 mb-4">
-        <MetaPill label="Dates" value={item.period} />
-        <MetaPill label="Duration" value={item.duration} />
-        <MetaPill label="Location" value={item.location || 'N/A'} />
-      </div>
+      <p className="flex flex-wrap items-center gap-x-2 gap-y-1 text-surface-500 text-sm font-medium mb-4 tabular-nums">
+        <span className="text-heading">{item.period}</span>
+        <span className="text-surface-700" aria-hidden="true">·</span>
+        <span>{item.duration}</span>
+        {item.location && (
+          <>
+            <span className="text-surface-700" aria-hidden="true">·</span>
+            <span>{item.location}</span>
+          </>
+        )}
+      </p>
 
       {item.roles && item.roles.length > 0 && (
         <div className="mb-4 rounded-xl border border-surface-700/30 bg-surface-900/30 p-4 sm:p-5">
@@ -184,7 +183,7 @@ var CareerCard = ({ item }) => {
 };
 
 var Career = () => (
-  <section id="career" className="py-24">
+  <section id="career" className="py-20">
     <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
       <SectionHeader
         eyebrow="Professional Journey"

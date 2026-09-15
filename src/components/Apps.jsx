@@ -249,7 +249,7 @@ var Apps = ({ repos = [] }) => {
   var leaderBadge = sorted.sort.badge && leader && leader[sorted.sort.key] ? sorted.sort.badge : null;
 
   return (
-    <section id="apps" className="py-24 bg-surface-900/40">
+    <section id="apps" className="py-20 bg-surface-900/40">
       <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           accent="cyan"

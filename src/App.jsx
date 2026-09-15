@@ -1,8 +1,9 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import TrustBar from './components/TrustBar';
 import Projects from './components/Projects';
+import Repositories from './components/Repositories';
 import Apps from './components/Apps';
 import Career from './components/Career';
 import Skills from './components/Skills';
@@ -17,10 +18,6 @@ import Reveal from './components/Reveal';
 import SectionSkeleton from './components/SectionSkeleton';
 import useGitHub from './hooks/useGitHub';
 import { CONFIG } from './utils/constants';
-
-// Repositories pulls in Recharts (~90KB gzipped) and sits below the fold, so it
-// is code-split and streamed in on demand to keep the initial bundle lean.
-const Repositories = lazy(() => import('./components/Repositories'));
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(() => {
@@ -59,11 +56,7 @@ const App = () => {
       </section>
     );
   } else {
-    repositoriesContent = (
-      <Suspense fallback={<SectionSkeleton label="Loading repositories" />}>
-        <Repositories repos={repos} />
-      </Suspense>
-    );
+    repositoriesContent = <Repositories repos={repos} />;
   }
 
   return (

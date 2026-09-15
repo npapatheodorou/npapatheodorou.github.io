@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { CERTIFICATIONS_DATA } from '../utils/constants';
 import SectionHeader from './SectionHeader';
-import StatCard from './StatCard';
 
 var BRAND_LOGOS = {
   microsoft: {
@@ -98,23 +97,11 @@ var CertCard = ({ cert, isExpanded, onToggle }) => (
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="bg-surface-900/40 rounded-xl p-3 border border-surface-700/20">
-          <div className="text-surface-600 text-xs font-bold uppercase tracking-wider mb-1">Issued</div>
-          <span className="text-heading text-sm font-semibold">{cert.issued}</span>
-        </div>
-        <div className="bg-surface-900/40 rounded-xl p-3 border border-surface-700/20">
-          <div className="text-surface-600 text-xs font-bold uppercase tracking-wider mb-1">Expires</div>
-          <span className="text-heading text-sm font-semibold">{cert.expires || 'No Expiration'}</span>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-2 mb-4 bg-surface-900/30 rounded-lg px-3 py-2 border border-surface-700/20">
-        <svg aria-hidden="true" className="w-4 h-4 text-surface-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-        </svg>
-        <span className="text-surface-500 text-xs font-mono truncate">{cert.credentialId}</span>
-      </div>
+      <p className="text-surface-500 text-xs font-medium mb-4 tabular-nums">
+        Issued {cert.issued}
+        <span className="mx-1.5 text-surface-700" aria-hidden="true">·</span>
+        {cert.expires ? 'Expires ' + cert.expires : 'No expiration'}
+      </p>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
         {cert.tags.map(function(tag) {
@@ -122,9 +109,10 @@ var CertCard = ({ cert, isExpanded, onToggle }) => (
         })}
       </div>
 
-      <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0')}>
+      <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0')}>
         <div className="pt-3 border-t border-surface-700/30 mb-4">
-          <p className="text-surface-400 text-sm leading-relaxed">{cert.description}</p>
+          <p className="text-surface-400 text-sm leading-relaxed mb-3">{cert.description}</p>
+          <p className="text-surface-500 text-xs font-mono break-all">Credential ID: {cert.credentialId}</p>
         </div>
       </div>
 
@@ -171,7 +159,7 @@ var Certifications = function() {
   }).length;
 
   return (
-    <section id="certifications" className="py-24 bg-surface-900/40">
+    <section id="certifications" className="py-20 bg-surface-900/40">
       <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           accent="emerald"
@@ -180,43 +168,7 @@ var Certifications = function() {
           subtitle="Industry-recognized certifications validating expertise in cloud platforms, Java development, and modern web technologies."
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {[
-            { value: CERTIFICATIONS_DATA.length, label: 'Total Certifications', icon: 'award', color: 'text-emerald-500' },
-            { value: activeCerts, label: 'Active', icon: 'check', color: 'text-green-500' },
-            { value: Object.keys(seenIssuers).length, label: 'Issuers', icon: 'building', color: 'text-blue-500' },
-            { value: CERTIFICATIONS_DATA.filter(function(cert) { return cert.level === 'Professional'; }).length, label: 'Professional Level', icon: 'star', color: 'text-amber-500' },
-          ].map(function(stat) {
-            return <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />;
-          })}
-        </div>
-
-        <div className="card bg-surface-800/60 border border-surface-700/50 rounded-2xl p-6 mb-12">
-          <p className="text-surface-600 text-xs uppercase tracking-widest font-bold mb-4 text-center">Certified By</p>
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {[
-              { name: 'Oracle', sub: 'Java SE 17', logo: 'oracle' },
-              { name: 'AWS', sub: 'Cloud Practitioner', logo: 'aws' },
-              { name: 'Microsoft Azure', sub: 'DevOps Expert · Azure Admin', logo: 'microsoft' },
-              { name: 'Vaadin', sub: 'v14 & v24', logo: 'vaadin' },
-            ].map(function(item) {
-              var brand = BRAND_LOGOS[item.logo] || BRAND_LOGOS.oracle;
-              return (
-                <div key={item.name} className="flex items-center gap-3 px-5 py-3 bg-surface-900/50 border border-surface-700/30 rounded-xl hover:border-primary-500/20 transition-colors">
-                  <div className={'w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden ' + brand.bg}>
-                    <img src={brand.src} alt={brand.alt + ' logo'} className={brand.bannerSize + ' object-contain'} loading="lazy" />
-                  </div>
-                  <div>
-                    <span className="text-heading text-sm font-bold block">{item.name}</span>
-                    <span className="text-surface-500 text-xs">{item.sub}</span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-8" role="group" aria-label="Filter by issuer">
           {issuers.map(function(issuer) {
             return (
               <button key={issuer} onClick={function() { setFilter(issuer); }}
@@ -243,14 +195,6 @@ var Certifications = function() {
           </div>
         )}
 
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-2 px-5 py-3 bg-surface-800/40 border border-surface-700/30 rounded-xl">
-            <svg aria-hidden="true" className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-            <span className="text-surface-400 text-sm">All certifications are verifiable. Click <strong className="text-heading">Verify</strong> on any card.</span>
-          </div>
-        </div>
       </div>
     </section>
   );

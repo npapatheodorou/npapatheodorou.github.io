@@ -26,7 +26,13 @@ var Footer = () => (
             <a key={l.label} href={l.href} target={l.href.startsWith('mailto') ? undefined : '_blank'} rel="noopener noreferrer" className="w-11 h-11 flex items-center justify-center rounded-lg text-surface-500 hover:text-primary-500 hover:bg-surface-800/60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" aria-label={l.label}>{l.icon}</a>
           ))}
         </div>
-        <p className="text-surface-600 text-xs font-medium">© {new Date().getFullYear()} {CONFIG.name}</p>
+        <p className="text-surface-600 text-xs font-medium">
+          © {new Date().getFullYear()} {CONFIG.name}
+          <span className="mx-1.5" aria-hidden="true">·</span>
+          <a href={'https://github.com/' + CONFIG.githubUsername + '/npapatheodorou.github.io'} target="_blank" rel="noopener noreferrer" className="hover:text-primary-500 transition-colors rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+            Site source<span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </p>
       </div>
     </div>
   </footer>

@@ -378,6 +378,9 @@ export const APPS_DATA = [
 // Projects, in APPS_DATA order. Derived from repoUrl so both sections stay in
 // sync automatically; also lets a substantially reworked fork through the
 // "no forks" filter (GitHub flags the examtopics downloader as a fork).
+// Housekeeping repos that add noise rather than signal to the public list.
+export const HIDDEN_REPOS = ['npapatheodorou', 'npapatheodorou.github.io'];
+
 export const FEATURED_REPO_NAMES = APPS_DATA
   .filter(function (app) { return app.repoUrl; })
   .map(function (app) { return app.repoUrl.split('/').pop(); });

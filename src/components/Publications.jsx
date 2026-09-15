@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { PUBLICATIONS_DATA } from '../utils/constants';
 import SectionHeader from './SectionHeader';
-import StatCard from './StatCard';
 
 var PUBLISHER_BRANDS = {
   IEEE: {
@@ -203,7 +202,7 @@ var Publications = function() {
   });
 
   return (
-    <section id="publications" className="py-24">
+    <section id="publications" className="py-20">
       <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           accent="indigo"
@@ -212,30 +211,7 @@ var Publications = function() {
           subtitle="Published research spanning cybersecurity, blockchain identity, automotive systems, and healthcare informatics."
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          {[
-            { value: stats.total, label: 'Publications', icon: 'document', color: 'text-indigo-500' },
-            { value: stats.journals, label: 'Journal Articles', icon: 'journal', color: 'text-purple-500' },
-            { value: stats.conferences, label: 'Conference Papers', icon: 'presentation', color: 'text-blue-500' },
-            { value: publishers.length, label: 'Publishers', icon: 'building', color: 'text-green-500' },
-          ].map(function(stat) {
-            return <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />;
-          })}
-        </div>
-
-        <div className="flex items-center justify-between mb-8 px-2">
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-surface-500 text-sm font-semibold">Most Recent</span>
-          </div>
-          <div className="flex-1 mx-4 h-px bg-gradient-to-r from-green-500/50 via-primary-500/30 to-surface-700/30" />
-          <div className="flex items-center gap-2">
-            <span className="text-surface-600 text-sm font-semibold">2020</span>
-            <div className="w-3 h-3 rounded-full bg-surface-600" />
-          </div>
-        </div>
-
-        <div className="space-y-6 mb-12">
+        <div className="space-y-5 mb-10">
           {sortedPubs.map(function(pub) {
             return <PublicationCard key={pub.id} pub={pub} isExpanded={expandedId === pub.id} onToggle={function(id) { setExpandedId(expandedId === id ? null : id); }} />;
           })}
@@ -269,23 +245,6 @@ var Publications = function() {
           </div>
         </div>
 
-        <div className="mt-12 text-center">
-          <p className="text-surface-600 text-xs uppercase tracking-widest font-bold mb-4">Published With</p>
-          <div className="flex items-center justify-center gap-8 flex-wrap">
-            {[
-              { name: 'IEEE' },
-              { name: 'ACM' },
-              { name: 'Springer' },
-              { name: 'MDPI' },
-            ].map(function(publisher) {
-              return (
-                <div key={publisher.name} className="flex items-center gap-2 px-4 py-2 bg-surface-800/40 border border-surface-700/30 rounded-xl">
-                  <PublisherLogo publisher={publisher.name} banner />
-                </div>
-              );
-            })}
-          </div>
-        </div>
       </div>
     </section>
   );
