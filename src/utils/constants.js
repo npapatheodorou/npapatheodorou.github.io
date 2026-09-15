@@ -21,6 +21,7 @@ export const CONFIG = {
 // not nav chips to keep the bar to ~6 items.
 export const NAV_ITEMS = [
   { id: 'projects', label: 'Work' },
+  { id: 'apps', label: 'Apps' },
   { id: 'skills', label: 'Skills' },
   { id: 'career', label: 'Experience' },
   { id: 'publications', label: 'Publications' },
@@ -247,6 +248,138 @@ export const PROJECTS_DATA = [
     gradient: 'from-teal-600 to-cyan-500',
   },
 ];
+
+// Shipped, publicly usable apps. Facts are taken from each app's live site and
+// README. `noBackend` marks apps that run entirely client-side (no accounts,
+// no server-side storage); `featured` gets the wide bento slot.
+export const APPS_DATA = [
+  {
+    id: 'notesilo',
+    name: 'NoteSilo',
+    tagline: 'A note editor that never phones home.',
+    category: 'Productivity',
+    description: 'Local-first Markdown editor that runs entirely in the browser and saves to a .json file you own. Notes persist in IndexedDB and sync to disk — no backend, no cloud sync, no analytics.',
+    highlights: [
+      'Monaco-powered editing: multi-cursor, column selection, syntax-highlighted code blocks',
+      'Drag-and-drop note tree with groups, custom icons and colours',
+      'Full-text and regex search-and-replace across every document',
+    ],
+    stack: ['React 19', 'TypeScript', 'Vite', 'Zustand', 'Monaco Editor', 'IndexedDB'],
+    liveUrl: 'https://notesilo.vercel.app/',
+    repoUrl: 'https://github.com/npapatheodorou/notesilo',
+    icon: 'notes',
+    gradient: 'from-primary-600 to-accent-500',
+    noBackend: true,
+    featured: true,
+  },
+  {
+    id: 'xbs-pwa',
+    name: 'xBrowserSync Bookmarks',
+    tagline: 'Your xBrowserSync bookmarks, on your homescreen.',
+    category: 'PWA · Security',
+    description: 'Unofficial read-only PWA client for xBrowserSync — the iOS/Android homescreen app it never had. Bookmarks are decrypted on-device, so your password never leaves the browser.',
+    highlights: [
+      'On-device decryption with the Web Crypto API (PBKDF2-SHA256, AES-GCM)',
+      'Installable PWA with offline access to cached bookmarks',
+      'Search across titles, URLs and tags; collapsible folder tree',
+    ],
+    stack: ['Vanilla JS', 'Web Crypto API', 'Service Worker', 'PWA', 'Zero dependencies'],
+    liveUrl: 'https://xbs-pwa.vercel.app/',
+    repoUrl: 'https://github.com/npapatheodorou/xbs-pwa',
+    icon: 'bookmark',
+    gradient: 'from-purple-600 to-violet-500',
+    noBackend: true,
+  },
+  {
+    id: 'nordconf-wireguard',
+    name: 'NordConf WireGuard',
+    tagline: 'NordVPN\u2019s best server, as a ready-to-import .conf.',
+    category: 'Networking',
+    description: 'Turns NordVPN\u2019s recommended NordLynx server into a downloadable WireGuard configuration. The private key is fetched with your access token and used in the browser only.',
+    highlights: [
+      'Auto-picks the lowest-load recommended server, or choose one manually on a map',
+      'Private key is generated and used client-side — never uploaded',
+      'Self-hostable; a single serverless function proxies the NordVPN API',
+    ],
+    stack: ['JavaScript', 'Vercel Serverless', 'WireGuard', 'NordVPN API'],
+    liveUrl: 'https://nordconf-wireguard.vercel.app/',
+    repoUrl: 'https://github.com/npapatheodorou/nordconf-wireguard',
+    icon: 'key',
+    gradient: 'from-blue-600 to-cyan-500',
+    noBackend: true,
+  },
+  {
+    id: 'loadoutify',
+    name: 'Loadoutify',
+    tagline: 'Set up Windows in one pass.',
+    category: 'Windows tooling',
+    description: 'Pick your tools from a curated catalog and get one elevated Chocolatey script for everything it can install, plus a checklist of vendor downloads for the rest.',
+    highlights: [
+      '122 curated tools across 13 categories',
+      'One unattended Chocolatey run with per-package status tracking',
+      'Share a complete loadout by URL — no accounts, no database',
+    ],
+    stack: ['Chocolatey', 'PowerShell', 'Windows'],
+    liveUrl: 'https://loadoutify.vercel.app/',
+    repoUrl: null,
+    icon: 'package',
+    gradient: 'from-amber-600 to-orange-500',
+    noBackend: true,
+  },
+  {
+    id: 'cudy-openwrt-tutorial',
+    name: 'Cudy OpenWrt Guide',
+    tagline: 'Flash OpenWrt on a Cudy router and unlock it.',
+    category: 'Networking · Docs',
+    description: 'Interactive step-by-step guide for 18 Cudy router variants: flashing OpenWrt, enabling LuCI, network-wide Adblock, WireGuard VPN with policy routing and a kill switch, and IPv6.',
+    highlights: [
+      'Covers 18 Cudy models, with the WR3000E recommended',
+      'Adblock, WireGuard VPN, policy-based routing and kill switch',
+      'Command snippets stay in sync between README and site via embedded markers',
+    ],
+    stack: ['React', 'TypeScript', 'Vite', 'OpenWrt', 'WireGuard'],
+    liveUrl: 'https://cudy-openwrt-tutorial.vercel.app/',
+    repoUrl: 'https://github.com/npapatheodorou/cudy-openwrt-tutorial',
+    icon: 'wifi',
+    gradient: 'from-green-600 to-emerald-500',
+    ctaLabel: 'Read guide',
+    noBackend: false,
+  },
+  {
+    id: 'pretty-examtopics-downloader',
+    name: 'ExamTopics Downloader',
+    tagline: 'Public ExamTopics questions, as an offline study file.',
+    category: 'CLI · Go',
+    type: 'tool',
+    description: 'Enhanced edition of the community ExamTopics downloader. Pulls publicly accessible question pages for a chosen exam and renders them into one clean, self-contained HTML study file \u2014 no paywall bypass, no login.',
+    highlights: [
+      'Interactive vendor/exam picker with rate-limited, cached and resumable discovery',
+      'Single HTML output with styled question cards and an exam-simulation quiz mode',
+      'Pre-built Windows executables; builds for macOS and Linux from source',
+    ],
+    stack: ['Go', 'CLI', 'HTML'],
+    liveUrl: 'https://github.com/npapatheodorou/pretty-examtopics-downloader',
+    repoUrl: 'https://github.com/npapatheodorou/pretty-examtopics-downloader',
+    icon: 'terminal',
+    gradient: 'from-rose-600 to-red-500',
+    ctaLabel: 'View on GitHub',
+    noBackend: true,
+    featured: true,
+  },
+];
+
+// Repo names to pin at the top of the Repositories section's Featured
+// Projects, in APPS_DATA order. Derived from repoUrl so both sections stay in
+// sync automatically; also lets a substantially reworked fork through the
+// "no forks" filter (GitHub flags the examtopics downloader as a fork).
+export const FEATURED_REPO_NAMES = APPS_DATA
+  .filter(function (app) { return app.repoUrl; })
+  .map(function (app) { return app.repoUrl.split('/').pop(); });
+
+export const APP_BY_REPO = APPS_DATA.reduce(function (acc, app) {
+  if (app.repoUrl) acc[app.repoUrl.split('/').pop()] = app;
+  return acc;
+}, {});
 
 export const CAREER_DATA = [
   {

@@ -150,15 +150,19 @@ p { text-wrap: pretty; }
 }
 @keyframes caret-blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
 
-/* Light mode specific polish */
+/* Floating navbar surface (border is applied by the container's Tailwind
+   classes so the rounded pill reads as one card in both themes). */
 :root:not(.dark) .glass-nav {
-  background: rgba(255, 255, 255, 0.85);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  background: rgba(255, 255, 255, 0.88);
 }
 
 .dark .glass-nav {
-  background: rgba(15, 23, 42, 0.9);
-  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  background: rgba(15, 23, 42, 0.86);
+}
+
+/* Remove the 300ms tap delay on touch devices without disabling pinch-zoom. */
+button, a, select, [role="button"] {
+  touch-action: manipulation;
 }
 
 /* Theme switch: transition only the color-bearing properties on themed
@@ -180,6 +184,8 @@ p { text-wrap: pretty; }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+  /* Release the compositor hint once the entrance has played. */
+  will-change: auto;
 }
 
 /* ========== Respect reduced-motion preferences (WCAG 2.3.3) ========== */

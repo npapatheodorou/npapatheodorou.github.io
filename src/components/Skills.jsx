@@ -48,6 +48,22 @@ var icons = {
 var Skills = () => {
   const [active, setActive] = useState('backend');
   var data = SKILLS_DATA[active];
+  var keys = Object.keys(SKILLS_DATA);
+
+  // WAI-ARIA tabs: arrow keys move between tabs, Home/End jump to the ends,
+  // and only the active tab sits in the Tab order (roving tabindex).
+  var onTabKeyDown = function (event, index) {
+    var next = null;
+    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % keys.length;
+    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index - 1 + keys.length) % keys.length;
+    else if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = keys.length - 1;
+    if (next === null) return;
+    event.preventDefault();
+    setActive(keys[next]);
+    var el = document.getElementById('skill-tab-' + keys[next]);
+    if (el) el.focus();
+  };
 
   return (
     <section id="skills" className="py-24 bg-surface-900/40">
@@ -65,10 +81,14 @@ var Skills = () => {
         </SectionHeader>
 
         <div className="grid lg:grid-cols-12 gap-8">
-          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-24 lg:self-start" role="tablist" aria-label="Skill categories">
-            {Object.entries(SKILLS_DATA).map(([k, v]) => (
+          <div className="lg:col-span-4 space-y-2 lg:sticky lg:top-24 lg:self-start" role="tablist" aria-orientation="vertical" aria-label="Skill categories">
+            {Object.entries(SKILLS_DATA).map(([k, v], index) => (
               <button key={k} onClick={() => setActive(k)}
+                onKeyDown={(event) => onTabKeyDown(event, index)}
                 role="tab"
+                id={'skill-tab-' + k}
+                aria-controls={'skill-panel-' + k}
+                tabIndex={active === k ? 0 : -1}
                 aria-selected={active === k}
                 className={'card flex items-center gap-3 px-5 py-4 rounded-xl text-left w-full transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (active === k ? 'bg-primary-500/10 border border-primary-500/25 text-heading' : 'bg-surface-800/40 border border-surface-700/50 text-surface-500 hover:text-heading hover:border-surface-600')}>
@@ -79,7 +99,12 @@ var Skills = () => {
           </div>
 
           <div className="lg:col-span-8">
-            <div className="card bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-6 sm:p-8">
+            <div
+              role="tabpanel"
+              id={'skill-panel-' + active}
+              aria-labelledby={'skill-tab-' + active}
+              className="card bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-6 sm:p-8"
+            >
               <div className="flex items-center gap-3 mb-6">
                 <div className={'w-11 h-11 rounded-xl bg-gradient-to-br ' + data.color + ' flex items-center justify-center text-white shadow-lg'}>
                   <span className="text-lg font-extrabold">{data.skills.length}</span>

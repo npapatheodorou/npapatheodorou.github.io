@@ -2,6 +2,14 @@ import React from 'react';
 import { CONFIG } from '../utils/constants';
 import ResumeModal from './ResumeModal';
 
+// Value-prop glyphs (Heroicons outline) — SVG rather than emoji so they render
+// identically across platforms and inherit the card's colour.
+var PILLAR_ICONS = {
+  lock: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />,
+  cog: <><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></>,
+  gauge: <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />,
+};
+
 var Contact = () => (
   <section id="contact" className="py-24">
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,7 +27,7 @@ var Contact = () => (
           </div>
 
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-5 tracking-tight">Let's Build Something Great</h2>
-          <p className="text-blue-100/70 text-lg max-w-3xl mx-auto mb-10 leading-relaxed">
+          <p className="text-white/85 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
             I am open to DevOps, platform engineering, backend, and cloud delivery roles.
             If you need faster releases, stronger reliability, or better engineering automation, let's talk.
           </p>
@@ -33,7 +41,7 @@ var Contact = () => (
               return (
                 <div key={item.title} className="rounded-2xl border border-white/15 bg-white/5 backdrop-blur-sm p-5 text-left">
                   <h3 className="text-white font-bold mb-2">{item.title}</h3>
-                  <p className="text-blue-100/70 text-sm leading-relaxed">{item.desc}</p>
+                  <p className="text-white/80 text-sm leading-relaxed">{item.desc}</p>
                 </div>
               );
             })}
@@ -41,14 +49,14 @@ var Contact = () => (
 
           <div className="flex flex-col lg:flex-row lg:flex-wrap items-center justify-center gap-4 mb-8">
             <a href={'mailto:' + CONFIG.contactEmail}
-              className="group flex items-center gap-3 px-8 py-4 bg-white text-primary-700 rounded-xl font-bold hover:bg-blue-50 transition-all shadow-xl hover:shadow-2xl w-full lg:w-auto justify-center">
+              className="group flex items-center gap-3 px-8 py-4 bg-white text-primary-700 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-xl hover:shadow-2xl w-full lg:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-primary-700">
               Email Me
-              <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg aria-hidden="true" className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
             </a>
             <a href={CONFIG.linkedIn} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
+              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-colors backdrop-blur-sm w-full lg:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               Connect on LinkedIn
             </a>
             <ResumeModal
@@ -56,39 +64,39 @@ var Contact = () => (
               triggerClassName="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-colors backdrop-blur-sm w-full lg:w-auto justify-center cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
             />
             <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-all backdrop-blur-sm w-full lg:w-auto justify-center">
+              className="flex items-center gap-3 px-8 py-4 bg-white/10 text-white border border-white/20 rounded-xl font-bold hover:bg-white/20 transition-colors backdrop-blur-sm w-full lg:w-auto justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               View GitHub
             </a>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 text-sm">
-            <a href={'mailto:' + CONFIG.contactEmail} className="text-white/85 font-medium hover:text-white transition-colors">
+            <a href={'mailto:' + CONFIG.contactEmail} className="text-white/90 font-medium hover:text-white transition-colors py-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               {CONFIG.contactEmail}
             </a>
             <span className="hidden sm:block text-white/30">|</span>
-            <a href={CONFIG.linkedIn} target="_blank" rel="noopener noreferrer" className="text-white/85 font-medium hover:text-white transition-colors">
+            <a href={CONFIG.linkedIn} target="_blank" rel="noopener noreferrer" className="text-white/90 font-medium hover:text-white transition-colors py-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               LinkedIn
             </a>
             <span className="hidden sm:block text-white/30">|</span>
-            <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer" className="text-white/85 font-medium hover:text-white transition-colors">
+            <a href={'https://github.com/' + CONFIG.githubUsername} target="_blank" rel="noopener noreferrer" className="text-white/90 font-medium hover:text-white transition-colors py-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80">
               GitHub
             </a>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-8 max-w-2xl mx-auto mt-12">
             {[
-              { emoji: '🔐', eyebrow: 'Security', title: 'Security-First', desc: 'Secure architecture and DevSecOps practices.' },
-              { emoji: '🤖', eyebrow: 'Automation', title: 'Automation-Driven', desc: 'CI/CD, infrastructure as code, and repeatable delivery.' },
-              { emoji: '🚀', eyebrow: 'Reliability', title: 'Performance-Focused', desc: 'Scalable services with strong operational discipline.' }
+              { icon: 'lock', eyebrow: 'Security', title: 'Security-First', desc: 'Secure architecture and DevSecOps practices.' },
+              { icon: 'cog', eyebrow: 'Automation', title: 'Automation-Driven', desc: 'CI/CD, infrastructure as code, and repeatable delivery.' },
+              { icon: 'gauge', eyebrow: 'Reliability', title: 'Performance-Focused', desc: 'Scalable services with strong operational discipline.' }
             ].map(function(item) {
               return (
                 <div key={item.title} className="text-center">
-                  <div className="w-14 h-14 bg-white/10 rounded-2xl border border-white/10 flex items-center justify-center mx-auto mb-3 text-2xl backdrop-blur-sm text-white shadow-lg">
-                    <span aria-hidden="true">{item.emoji}</span>
+                  <div className="w-14 h-14 bg-white/10 rounded-2xl border border-white/10 flex items-center justify-center mx-auto mb-3 backdrop-blur-sm text-white shadow-lg">
+                    <svg aria-hidden="true" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">{PILLAR_ICONS[item.icon]}</svg>
                   </div>
-                  <div className="text-[11px] font-black uppercase tracking-[0.22em] text-white/65 mb-2">{item.eyebrow}</div>
+                  <div className="text-[11px] font-black uppercase tracking-[0.22em] text-white/80 mb-2">{item.eyebrow}</div>
                   <h4 className="text-white font-bold text-sm mb-1">{item.title}</h4>
-                  <p className="text-blue-200/50 text-xs">{item.desc}</p>
+                  <p className="text-white/75 text-xs leading-relaxed">{item.desc}</p>
                 </div>
               );
             })}

@@ -59,14 +59,14 @@ var Logo = ({ item }) => {
 
   return (
     <div className={'w-12 h-12 rounded-xl border border-surface-600/40 overflow-hidden flex items-center justify-center ' + logo.wrap}>
-      <img src={logo.src} alt={logo.alt} className={logo.size + ' object-contain'} loading="lazy" />
+      <img src={logo.src} alt={logo.alt} width="32" height="32" className={logo.size + ' object-contain'} loading="lazy" />
     </div>
   );
 };
 
 var MetaPill = ({ label, value }) => (
   <div className="rounded-lg border border-surface-700/40 bg-surface-900/40 px-3 py-2">
-    <div className="text-[11px] uppercase tracking-wider text-surface-600 font-bold">{label}</div>
+    <div className="text-[11px] uppercase tracking-wider text-surface-500 font-bold">{label}</div>
     <div className="text-sm text-heading font-semibold mt-0.5">{value}</div>
   </div>
 );
@@ -117,7 +117,7 @@ var CareerCard = ({ item }) => {
                       <span className="text-heading text-sm font-bold leading-tight">{role.title}</span>
                       {role.promoted && (
                         <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/15 text-amber-500">
-                          <svg className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <svg aria-hidden="true" className="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 15l7-7 7 7" />
                           </svg>
                           Promoted
@@ -184,7 +184,7 @@ var CareerCard = ({ item }) => {
 };
 
 var Career = () => (
-  <section id="career" className="py-24 bg-surface-900/40">
+  <section id="career" className="py-24">
     <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
       <SectionHeader
         eyebrow="Professional Journey"

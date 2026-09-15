@@ -25,7 +25,7 @@ const CopyEmail = ({ className = '' }) => {
       onClick={handleCopy}
       aria-label={'Copy email address ' + CONFIG.contactEmail}
       className={
-        'group inline-flex items-center gap-2 rounded-xl border border-surface-700/50 bg-surface-800/50 px-4 py-2.5 text-sm font-semibold text-surface-300 transition-colors hover:border-primary-500/40 hover:text-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
+        'group inline-flex items-center gap-2 rounded-xl border border-surface-700/50 bg-surface-800/50 px-4 py-2.5 min-h-[44px] text-sm font-semibold text-surface-300 transition-colors hover:border-primary-500/40 hover:text-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
         className
       }
     >

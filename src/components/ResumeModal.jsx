@@ -56,7 +56,7 @@ const ResumeModal = ({ triggerClassName = '', triggerLabel = 'Preview Resume' })
                 <a
                   href={CONFIG.resumeUrl}
                   download
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 min-h-[40px] rounded-lg bg-primary-600 hover:bg-primary-500 text-white text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400"
                 >
                   Download
                 </a>
@@ -65,7 +65,7 @@ const ResumeModal = ({ triggerClassName = '', triggerLabel = 'Preview Resume' })
                   type="button"
                   onClick={() => setOpen(false)}
                   aria-label="Close résumé preview"
-                  className="w-8 h-8 rounded-lg bg-surface-800 hover:bg-surface-700 text-surface-400 hover:text-heading flex items-center justify-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
+                  className="w-10 h-10 rounded-lg bg-surface-800 hover:bg-surface-700 text-surface-400 hover:text-heading flex items-center justify-center transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
                 >
                   <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />

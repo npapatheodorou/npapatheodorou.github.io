@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import TrustBar from './components/TrustBar';
 import Projects from './components/Projects';
+import Apps from './components/Apps';
 import Career from './components/Career';
 import Skills from './components/Skills';
 import Certifications from './components/Certifications';
@@ -10,7 +11,6 @@ import Publications from './components/Publications';
 import Research from './components/Research';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import LoadingSpinner from './components/LoadingSpinner';
 import ErrorState from './components/ErrorState';
 import ScrollToTop from './components/ScrollToTop';
 import Reveal from './components/Reveal';
@@ -44,13 +44,27 @@ const App = () => {
 
   var toggleDarkMode = () => setDarkMode(!darkMode);
 
-  var repositoriesSection = (
-    <Reveal as="section" aria-label="Repositories">
+  // Only the GitHub-backed section depends on the network. Everything else is
+  // static and renders immediately, so a slow or rate-limited API never blanks
+  // the whole portfolio behind a spinner.
+  var repositoriesContent;
+  if (loading) {
+    repositoriesContent = <SectionSkeleton label="Loading repositories" />;
+  } else if (error) {
+    repositoriesContent = (
+      <section id="repositories" className="py-24">
+        <div className="max-w-7xl 2xl:max-w-[88rem] mx-auto px-4 sm:px-6 lg:px-8">
+          <ErrorState message={'Could not load GitHub repositories. ' + error} onRetry={refetch} />
+        </div>
+      </section>
+    );
+  } else {
+    repositoriesContent = (
       <Suspense fallback={<SectionSkeleton label="Loading repositories" />}>
-        <Repositories repos={error ? [] : repos} />
+        <Repositories repos={repos} />
       </Suspense>
-    </Reveal>
-  );
+    );
+  }
 
   return (
     <div className="min-h-screen bg-surface-950 transition-colors duration-300">
@@ -62,29 +76,17 @@ const App = () => {
       </a>
       <Navbar darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
       <main id="main">
-        {loading ? (
-          <div className="min-h-screen flex items-center justify-center">
-            <LoadingSpinner message="Fetching GitHub data..." />
-          </div>
-        ) : (
-          <>
-            <Hero profile={error ? null : profile} />
-            <TrustBar />
-            {error && (
-              <div className="py-12">
-                <ErrorState message={error} onRetry={refetch} />
-              </div>
-            )}
-            <Reveal as="div"><Projects /></Reveal>
-            <Reveal as="div"><Career /></Reveal>
-            {repositoriesSection}
-            <Reveal as="div"><Skills /></Reveal>
-            <Reveal as="div"><Certifications /></Reveal>
-            <Reveal as="div"><Publications /></Reveal>
-            <Reveal as="div"><Research /></Reveal>
-            <Reveal as="div"><Contact /></Reveal>
-          </>
-        )}
+        <Hero profile={error ? null : profile} />
+        <TrustBar />
+        <Reveal as="div"><Projects /></Reveal>
+        <Reveal as="div"><Apps repos={error ? [] : repos} /></Reveal>
+        <Reveal as="div"><Career /></Reveal>
+        <Reveal as="div" aria-busy={loading || undefined}>{repositoriesContent}</Reveal>
+        <Reveal as="div"><Skills /></Reveal>
+        <Reveal as="div"><Certifications /></Reveal>
+        <Reveal as="div"><Publications /></Reveal>
+        <Reveal as="div"><Research /></Reveal>
+        <Reveal as="div"><Contact /></Reveal>
       </main>
       <Footer />
       <ScrollToTop />

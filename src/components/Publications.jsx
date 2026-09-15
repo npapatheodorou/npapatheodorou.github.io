@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PUBLICATIONS_DATA } from '../utils/constants';
 import SectionHeader from './SectionHeader';
+import StatCard from './StatCard';
 
 var PUBLISHER_BRANDS = {
   IEEE: {
@@ -8,14 +9,14 @@ var PUBLISHER_BRANDS = {
     src: (process.env.PUBLIC_URL || '') + '/icons/brands/ieee.svg',
     bg: 'bg-white',
     cardIconSize: 'w-4 h-4',
-    bannerIconSize: 'w-4.5 h-4.5',
+    bannerIconSize: 'w-5 h-5',
   },
   ACM: {
     alt: 'ACM',
     src: (process.env.PUBLIC_URL || '') + '/icons/brands/acm.svg',
     bg: 'bg-white',
     cardIconSize: 'w-4 h-4',
-    bannerIconSize: 'w-4.5 h-4.5',
+    bannerIconSize: 'w-5 h-5',
   },
   Springer: {
     alt: 'Springer',
@@ -86,7 +87,7 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
         </p>
 
         <div className="flex items-start gap-2 mb-3">
-          <svg className="w-4 h-4 text-surface-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg aria-hidden="true" className="w-4 h-4 text-surface-600 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
           </svg>
           <div>
@@ -96,7 +97,7 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
         </div>
 
         <div className="flex items-center gap-2 mb-4">
-          <svg className="w-4 h-4 text-surface-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg aria-hidden="true" className="w-4 h-4 text-surface-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <span className="text-surface-500 text-sm">{pub.date}</span>
@@ -104,7 +105,7 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
 
         {pub.doi && (
           <div className="flex items-center gap-2 mb-4">
-            <svg className="w-4 h-4 text-surface-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="w-4 h-4 text-surface-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
             </svg>
             <span className="text-surface-600 text-xs font-mono">DOI: {pub.doi}</span>
@@ -117,7 +118,7 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
           })}
         </div>
 
-        <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0')}>
+        <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-72 opacity-100' : 'max-h-0 opacity-0')}>
           <div className="pt-4 border-t border-surface-700/30">
             <h4 className="text-surface-500 text-xs uppercase tracking-widest font-bold mb-2">Abstract</h4>
             <p className="text-surface-400 text-sm leading-relaxed">{pub.abstract}</p>
@@ -125,17 +126,17 @@ var PublicationCard = ({ pub, isExpanded, onToggle }) => {
         </div>
 
         <div className="flex items-center justify-between pt-4 border-t border-surface-700/30 mt-4">
-          <button onClick={function() { onToggle(pub.id); }} className="flex items-center gap-1.5 text-surface-500 hover:text-primary-500 text-sm font-medium transition-colors">
-            <svg className={'w-4 h-4 transition-transform duration-300 ' + (isExpanded ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button onClick={function() { onToggle(pub.id); }} aria-expanded={isExpanded} className="flex items-center gap-1.5 py-2 -my-2 rounded-md text-surface-500 hover:text-primary-500 text-sm font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+            <svg aria-hidden="true" className={'w-4 h-4 transition-transform duration-300 ' + (isExpanded ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
             </svg>
             {isExpanded ? 'Hide Abstract' : 'Show Abstract'}
           </button>
 
           <a href={pub.url} target="_blank" rel="noopener noreferrer"
-            className="group/link flex items-center gap-2 px-4 py-2 bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-bold transition-all">
+            className="group/link flex items-center gap-2 px-4 py-2 bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-bold transition-colors min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
             Read Paper
-            <svg className="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="w-4 h-4 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
@@ -163,13 +164,13 @@ var CitationBlock = ({ pub }) => {
     <div className="bg-surface-900/50 rounded-lg p-3 border border-surface-700/20">
       <div className="flex items-start justify-between gap-2">
         <p className="text-surface-500 text-xs font-mono leading-relaxed flex-1">{citation}</p>
-        <button onClick={handleCopy} className="flex-shrink-0 p-1.5 rounded-md hover:bg-surface-700/50 text-surface-500 hover:text-primary-500 transition-all" title="Copy citation">
+        <button onClick={handleCopy} className="flex-shrink-0 w-10 h-10 -m-2 flex items-center justify-center rounded-md hover:bg-surface-700/50 text-surface-500 hover:text-primary-500 transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" aria-label={copied ? "Citation copied" : "Copy citation"} title="Copy citation">
           {copied ? (
-            <svg className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="w-4 h-4 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           ) : (
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           )}
@@ -213,18 +214,12 @@ var Publications = function() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
-            { value: stats.total, label: 'Publications', icon: 'PB', color: 'text-indigo-500' },
-            { value: stats.journals, label: 'Journal Articles', icon: 'JR', color: 'text-purple-500' },
-            { value: stats.conferences, label: 'Conference Papers', icon: 'CP', color: 'text-blue-500' },
-            { value: publishers.length, label: 'Publishers', icon: 'PU', color: 'text-green-500' },
+            { value: stats.total, label: 'Publications', icon: 'document', color: 'text-indigo-500' },
+            { value: stats.journals, label: 'Journal Articles', icon: 'journal', color: 'text-purple-500' },
+            { value: stats.conferences, label: 'Conference Papers', icon: 'presentation', color: 'text-blue-500' },
+            { value: publishers.length, label: 'Publishers', icon: 'building', color: 'text-green-500' },
           ].map(function(stat) {
-            return (
-              <div key={stat.label} className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 text-center">
-                <div className="text-xs font-black tracking-[0.25em] text-surface-500 mb-2">{stat.icon}</div>
-                <div className={'text-3xl font-extrabold ' + stat.color}>{stat.value}</div>
-                <div className="text-surface-500 text-sm font-medium mt-1">{stat.label}</div>
-              </div>
-            );
+            return <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />;
           })}
         </div>
 
@@ -250,7 +245,7 @@ var Publications = function() {
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-indigo-500/15 flex items-center justify-center">
-                <svg className="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg aria-hidden="true" className="w-5 h-5 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
               </div>
@@ -259,9 +254,9 @@ var Publications = function() {
                 <p className="text-surface-500 text-sm">Copy formatted citations for reference</p>
               </div>
             </div>
-            <button onClick={function() { setShowCitations(!showCitations); }} className="flex items-center gap-2 px-4 py-2 bg-surface-700/30 hover:bg-surface-700/50 text-surface-400 hover:text-heading rounded-lg text-sm font-semibold transition-all">
+            <button onClick={function() { setShowCitations(!showCitations); }} className="flex items-center gap-2 px-4 py-2 bg-surface-700/30 hover:bg-surface-700/50 text-surface-400 hover:text-heading rounded-lg text-sm font-semibold transition-colors min-h-[40px] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500" aria-expanded={showCitations}>
               {showCitations ? 'Hide' : 'Show All'}
-              <svg className={'w-4 h-4 transition-transform duration-300 ' + (showCitations ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg aria-hidden="true" className={'w-4 h-4 transition-transform duration-300 ' + (showCitations ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
@@ -269,7 +264,7 @@ var Publications = function() {
 
           <div className={'overflow-hidden transition-all duration-500 ' + (showCitations ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0')}>
             <div className="space-y-3">
-              {sortedPubs.map(function(pub) { return <CitationBlock key={pub.id} pub={pub} />; })}
+              {showCitations && sortedPubs.map(function(pub) { return <CitationBlock key={pub.id} pub={pub} />; })}
             </div>
           </div>
         </div>

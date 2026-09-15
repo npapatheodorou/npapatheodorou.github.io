@@ -1,14 +1,20 @@
 import React, { useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts';
 import { calculateLanguageStats, formatDate, formatNumber, getLanguageColor } from '../utils/helpers';
+import { FEATURED_REPO_NAMES, APP_BY_REPO } from '../utils/constants';
+
+// A repo counts as "mine" if it is not a fork, or if it is explicitly curated
+// (a substantially reworked fork still belongs in the showcase).
+var isOwn = function (repo) { return !repo.fork || FEATURED_REPO_NAMES.indexOf(repo.name) !== -1; };
 import SectionHeader from './SectionHeader';
+import StatCard from './StatCard';
 
 var RepoCard = ({ repo }) => (
   <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
-    className="card group block bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-6 hover:border-primary-500/30 hover:-translate-y-1">
+    className="card group block bg-surface-800/60 backdrop-blur-sm border border-surface-700/50 rounded-2xl p-6 hover:border-primary-500/30 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
     <div className="flex items-start justify-between mb-3">
       <h3 className="text-heading font-bold group-hover:text-primary-500 transition-colors truncate max-w-[220px]">{repo.name}</h3>
-      <svg className="w-4 h-4 text-surface-500 group-hover:text-primary-500 transition-all flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg aria-hidden="true" className="w-4 h-4 text-surface-500 group-hover:text-primary-500 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
       </svg>
     </div>
@@ -51,34 +57,56 @@ var ChartTooltip = ({ active, payload }) => {
   return null;
 };
 
-var FeaturedRepoCard = ({ repo }) => (
-  <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
-    className="card group block bg-gradient-to-br from-primary-500/10 to-surface-800/60 border border-primary-500/20 rounded-2xl p-6 hover:border-primary-500/40 hover:-translate-y-1">
-    <div className="flex items-start justify-between gap-4 mb-4">
-      <div>
-        <div className="text-primary-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Featured Repository</div>
-        <h3 className="text-heading font-bold text-xl group-hover:text-primary-500 transition-colors">{repo.name}</h3>
+var FeaturedRepoCard = ({ repo }) => {
+  var app = APP_BY_REPO[repo.name];
+  var liveUrl = app && app.liveUrl !== app.repoUrl ? app.liveUrl : (repo.homepage || null);
+  return (
+    <article className="card group flex flex-col bg-gradient-to-br from-primary-500/10 to-surface-800/60 border border-primary-500/20 rounded-2xl p-6 hover:border-primary-500/40" aria-labelledby={'repo-' + repo.id}>
+      <div className="flex items-start justify-between gap-4 mb-4">
+        <div className="min-w-0">
+          <div className="text-primary-500 text-xs font-bold uppercase tracking-[0.2em] mb-2">Featured Repository</div>
+          <h3 id={'repo-' + repo.id} className="text-heading font-bold text-xl leading-snug">
+            <a href={repo.html_url} target="_blank" rel="noopener noreferrer" className="hover:text-primary-500 transition-colors rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+              {app ? app.name : repo.name}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </h3>
+          {app && <p className="text-surface-500 text-xs font-mono mt-0.5 truncate">{repo.name}</p>}
+        </div>
+        {repo.language && (
+          <span className="inline-flex items-center gap-1.5 text-xs font-medium text-surface-500 flex-shrink-0">
+            <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: getLanguageColor(repo.language) }} aria-hidden="true" />
+            {repo.language}
+          </span>
+        )}
       </div>
-      <svg className="w-4 h-4 text-primary-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-      </svg>
-    </div>
-    <p className="text-surface-400 text-sm leading-relaxed mb-5 min-h-[60px]">{repo.description || 'Repository showcasing practical engineering work.'}</p>
-    <div className="flex flex-wrap gap-1.5 mb-4">
-      {(repo.topics || []).slice(0, 5).map(function(topic) {
-        return <span key={topic} className="px-2.5 py-1 text-xs font-semibold bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-lg">{topic}</span>;
-      })}
-    </div>
-    <div className="flex items-center justify-between pt-4 border-t border-surface-700/30">
-      <div className="flex items-center gap-4 text-xs text-surface-500">
-        {repo.language && <span>{repo.language}</span>}
-        {repo.stargazers_count > 0 && <span>Stars {formatNumber(repo.stargazers_count)}</span>}
-        {repo.forks_count > 0 && <span>Forks {formatNumber(repo.forks_count)}</span>}
+      <p className="text-surface-400 text-sm leading-relaxed mb-5">{(app && app.tagline) || repo.description || 'Repository showcasing practical engineering work.'}</p>
+      <div className="flex flex-wrap gap-1.5 mb-5">
+        {(repo.topics || []).slice(0, 5).map(function(topic) {
+          return <span key={topic} className="px-2.5 py-1 text-xs font-semibold bg-primary-500/10 text-primary-600 dark:text-primary-400 rounded-lg">{topic}</span>;
+        })}
       </div>
-      <span className="text-surface-600 text-xs">{formatDate(repo.pushed_at)}</span>
-    </div>
-  </a>
-);
+      <div className="flex flex-wrap items-center gap-2 pt-4 mt-auto border-t border-surface-700/30">
+        <a href={repo.html_url} target="_blank" rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 px-3 min-h-[36px] rounded-lg bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+          Repository<span className="sr-only"> (opens in a new tab)</span>
+        </a>
+        {liveUrl && (
+          <a href={liveUrl} target="_blank" rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 min-h-[36px] rounded-lg bg-green-500/10 hover:bg-green-500/20 text-green-600 dark:text-green-400 text-xs font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500">
+            <span className="w-1.5 h-1.5 rounded-full bg-green-500" aria-hidden="true" />
+            Live<span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        )}
+        <div className="ml-auto flex items-center gap-3 text-xs text-surface-500 tabular-nums">
+          {repo.stargazers_count > 0 && <span>Stars {formatNumber(repo.stargazers_count)}</span>}
+          {repo.forks_count > 0 && <span>Forks {formatNumber(repo.forks_count)}</span>}
+          <span className="text-surface-600">{formatDate(repo.pushed_at)}</span>
+        </div>
+      </div>
+    </article>
+  );
+};
 
 var Repositories = ({ repos }) => {
   const [filter, setFilter] = useState('all');
@@ -97,7 +125,7 @@ var Repositories = ({ repos }) => {
   }, [repos]);
 
   var filtered = useMemo(function() {
-    var items = repos.filter(function(repo) { return !repo.fork && !repo.archived; });
+    var items = repos.filter(function(repo) { return isOwn(repo) && !repo.archived; });
     if (filter !== 'all') items = items.filter(function(repo) { return repo.language === filter; });
     items.sort(function(a, b) {
       if (sortBy === 'stars') return b.stargazers_count - a.stargazers_count;
@@ -112,8 +140,15 @@ var Repositories = ({ repos }) => {
   var stars = repos.reduce(function(total, repo) { return total + repo.stargazers_count; }, 0);
   var forks = repos.reduce(function(total, repo) { return total + repo.forks_count; }, 0);
   var featuredRepos = useMemo(function() {
+    var byName = {};
+    repos.forEach(function(repo) { byName[repo.name] = repo; });
+    var pinned = FEATURED_REPO_NAMES
+      .map(function(name) { return byName[name]; })
+      .filter(Boolean);
+    var pinnedNames = pinned.map(function(repo) { return repo.name; });
+
     var scored = repos
-      .filter(function(repo) { return !repo.fork && !repo.archived && repo.description; })
+      .filter(function(repo) { return isOwn(repo) && !repo.archived && repo.description && pinnedNames.indexOf(repo.name) === -1; })
       .map(function(repo) {
         var score = 0;
         score += Math.min(repo.stargazers_count * 5, 30);
@@ -129,7 +164,8 @@ var Repositories = ({ repos }) => {
         return new Date(b.repo.pushed_at) - new Date(a.repo.pushed_at);
       });
 
-    return scored.slice(0, 3).map(function(item) { return item.repo; });
+    var fill = Math.max(0, 3 - pinned.length);
+    return pinned.concat(scored.slice(0, fill).map(function(item) { return item.repo; }));
   }, [repos]);
 
   return (
@@ -150,17 +186,12 @@ var Repositories = ({ repos }) => {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
-            { value: repos.filter(function(repo) { return !repo.fork; }).length, label: 'Repositories' },
-            { value: stars, label: 'Total Stars' },
-            { value: forks, label: 'Total Forks' },
-            { value: langStats.length, label: 'Languages' }
+            { value: repos.filter(isOwn).length, label: 'Repositories', icon: 'folder', color: 'text-primary-500' },
+            { value: stars, label: 'Total Stars', icon: 'star', color: 'text-amber-500' },
+            { value: forks, label: 'Total Forks', icon: 'fork', color: 'text-accent-500' },
+            { value: langStats.length, label: 'Languages', icon: 'code', color: 'text-emerald-500' }
           ].map(function(stat) {
-            return (
-              <div key={stat.label} className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 text-center">
-                <div className="text-2xl font-extrabold text-heading">{stat.value}</div>
-                <div className="text-surface-500 text-sm font-medium">{stat.label}</div>
-              </div>
-            );
+            return <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />;
           })}
         </div>
 
@@ -169,7 +200,7 @@ var Repositories = ({ repos }) => {
             <div className="flex items-end justify-between gap-4 mb-6">
               <div>
                 <h3 className="text-heading font-black text-2xl mb-2">Featured Projects</h3>
-                <p className="text-surface-500 text-sm max-w-2xl">A few public projects surfaced first — chosen by traction, documentation, and topic coverage.</p>
+                <p className="text-surface-500 text-sm max-w-2xl">The shipped apps and tools from above, with live GitHub stats — followed by everything else I keep public.</p>
               </div>
             </div>
             <div className="grid lg:grid-cols-3 gap-5">
@@ -220,16 +251,16 @@ var Repositories = ({ repos }) => {
           <div className="flex flex-wrap gap-2 flex-1">
             {languages.map(function(language) {
               return (
-                <button key={language} onClick={() => setFilter(language)}
-                  className={'px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all ' +
+                <button key={language} onClick={() => setFilter(language)} aria-pressed={filter === language}
+                  className={'px-3.5 py-2.5 rounded-lg text-sm font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                     (filter === language ? 'bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30' : 'bg-surface-800/50 text-surface-500 border border-surface-700/50 hover:text-heading hover:border-surface-600')}>
                   {language === 'all' ? 'All' : language}
                 </button>
               );
             })}
           </div>
-          <select value={sortBy} onChange={function(event) { setSortBy(event.target.value); }}
-            className="px-4 py-2 bg-surface-800 border border-surface-700 rounded-lg text-surface-400 text-sm focus:outline-none focus:border-primary-500/50">
+          <select value={sortBy} onChange={function(event) { setSortBy(event.target.value); }} aria-label="Sort repositories"
+            className="px-4 py-2.5 min-h-[44px] bg-surface-800 border border-surface-700 rounded-lg text-surface-300 text-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
             <option value="updated">Recently Updated</option>
             <option value="stars">Most Stars</option>
             <option value="created">Newest First</option>

@@ -24,6 +24,11 @@ var ACCENTS = {
     dot: 'bg-purple-500',
     line: 'from-purple-500',
   },
+  cyan: {
+    pill: 'bg-accent-500/10 text-accent-700 dark:text-accent-400',
+    dot: 'bg-accent-500',
+    line: 'from-accent-500',
+  },
 };
 
 var SectionHeader = ({ eyebrow, title, subtitle, accent = 'primary', children }) => {

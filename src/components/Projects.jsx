@@ -20,8 +20,8 @@ var ProjectCard = ({ project, open, toggle }) => (
           <span className="px-2.5 py-1 text-xs font-bold bg-white/20 text-white rounded-full backdrop-blur-sm">{project.category}</span>
           <h3 className="text-white font-bold text-lg mt-2 drop-shadow-sm">{project.title}</h3>
         </div>
-        <button onClick={() => toggle(project.id)} aria-expanded={open} aria-label={(open ? 'Collapse' : 'Expand') + ' details for ' + project.title} className="w-8 h-8 rounded-lg bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors backdrop-blur-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
-          <svg className={'w-4 h-4 transition-transform duration-300 ' + (open ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button onClick={() => toggle(project.id)} aria-expanded={open} aria-label={(open ? 'Collapse' : 'Expand') + ' details for ' + project.title} className="w-10 h-10 flex-shrink-0 rounded-lg bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition-colors backdrop-blur-sm cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70">
+          <svg aria-hidden="true" className={'w-4 h-4 transition-transform duration-300 ' + (open ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
@@ -106,8 +106,8 @@ var Projects = () => {
         <div className="flex flex-wrap justify-center gap-2 mb-12">
           {cats.map(function(category) {
             return (
-              <button key={category} onClick={() => setFilter(category)}
-                className={'px-4 py-2 rounded-xl text-sm font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
+              <button key={category} onClick={() => setFilter(category)} aria-pressed={filter === category}
+                className={'px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (filter === category ? 'bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30' : 'bg-surface-800/50 text-surface-500 border border-surface-700/50 hover:text-heading hover:border-surface-600')}>
                 {category === 'all' ? 'All Projects' : category}
               </button>

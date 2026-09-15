@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { CERTIFICATIONS_DATA } from '../utils/constants';
 import SectionHeader from './SectionHeader';
+import StatCard from './StatCard';
 
 var BRAND_LOGOS = {
   microsoft: {
@@ -109,7 +110,7 @@ var CertCard = ({ cert, isExpanded, onToggle }) => (
       </div>
 
       <div className="flex items-center gap-2 mb-4 bg-surface-900/30 rounded-lg px-3 py-2 border border-surface-700/20">
-        <svg className="w-4 h-4 text-surface-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg aria-hidden="true" className="w-4 h-4 text-surface-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
         </svg>
         <span className="text-surface-500 text-xs font-mono truncate">{cert.credentialId}</span>
@@ -121,24 +122,24 @@ var CertCard = ({ cert, isExpanded, onToggle }) => (
         })}
       </div>
 
-      <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0')}>
+      <div className={'overflow-hidden transition-all duration-500 ' + (isExpanded ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0')}>
         <div className="pt-3 border-t border-surface-700/30 mb-4">
           <p className="text-surface-400 text-sm leading-relaxed">{cert.description}</p>
         </div>
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-surface-700/30">
-        <button onClick={function() { onToggle(cert.id); }} className="flex items-center gap-1.5 text-surface-500 hover:text-primary-500 text-sm font-medium transition-colors">
-          <svg className={'w-4 h-4 transition-transform duration-300 ' + (isExpanded ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <button onClick={function() { onToggle(cert.id); }} aria-expanded={isExpanded} className="flex items-center gap-1.5 py-2 -my-2 rounded-md text-surface-500 hover:text-primary-500 text-sm font-medium transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
+          <svg aria-hidden="true" className={'w-4 h-4 transition-transform duration-300 ' + (isExpanded ? 'rotate-180' : '')} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
           {isExpanded ? 'Less Info' : 'More Info'}
         </button>
 
         <a href={cert.url} target="_blank" rel="noopener noreferrer"
-          className="group/link flex items-center gap-2 px-4 py-2 bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-bold transition-all">
+          className="group/link flex items-center gap-2 px-4 py-2 bg-primary-500/10 hover:bg-primary-500/20 text-primary-600 dark:text-primary-400 rounded-lg text-sm font-bold transition-colors min-h-[40px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500">
           Verify
-          <svg className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg aria-hidden="true" className="w-3.5 h-3.5 group-hover/link:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
           </svg>
         </a>
@@ -181,18 +182,12 @@ var Certifications = function() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
           {[
-            { value: CERTIFICATIONS_DATA.length, label: 'Total Certifications', icon: 'TC', color: 'text-emerald-500' },
-            { value: activeCerts, label: 'Active', icon: 'OK', color: 'text-green-500' },
-            { value: Object.keys(seenIssuers).length, label: 'Issuers', icon: 'IS', color: 'text-blue-500' },
-            { value: CERTIFICATIONS_DATA.filter(function(cert) { return cert.level === 'Professional'; }).length, label: 'Professional Level', icon: 'PR', color: 'text-amber-500' },
+            { value: CERTIFICATIONS_DATA.length, label: 'Total Certifications', icon: 'award', color: 'text-emerald-500' },
+            { value: activeCerts, label: 'Active', icon: 'check', color: 'text-green-500' },
+            { value: Object.keys(seenIssuers).length, label: 'Issuers', icon: 'building', color: 'text-blue-500' },
+            { value: CERTIFICATIONS_DATA.filter(function(cert) { return cert.level === 'Professional'; }).length, label: 'Professional Level', icon: 'star', color: 'text-amber-500' },
           ].map(function(stat) {
-            return (
-              <div key={stat.label} className="card bg-surface-800/60 border border-surface-700/50 rounded-xl p-5 text-center">
-                <div className="text-xs font-black tracking-[0.25em] text-surface-500 mb-2">{stat.icon}</div>
-                <div className={'text-3xl font-extrabold ' + stat.color}>{stat.value}</div>
-                <div className="text-surface-500 text-sm font-medium mt-1">{stat.label}</div>
-              </div>
-            );
+            return <StatCard key={stat.label} value={stat.value} label={stat.label} icon={stat.icon} color={stat.color} />;
           })}
         </div>
 
@@ -207,7 +202,7 @@ var Certifications = function() {
             ].map(function(item) {
               var brand = BRAND_LOGOS[item.logo] || BRAND_LOGOS.oracle;
               return (
-                <div key={item.name} className="flex items-center gap-3 px-5 py-3 bg-surface-900/50 border border-surface-700/30 rounded-xl hover:border-primary-500/20 transition-all">
+                <div key={item.name} className="flex items-center gap-3 px-5 py-3 bg-surface-900/50 border border-surface-700/30 rounded-xl hover:border-primary-500/20 transition-colors">
                   <div className={'w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden ' + brand.bg}>
                     <img src={brand.src} alt={brand.alt + ' logo'} className={brand.bannerSize + ' object-contain'} loading="lazy" />
                   </div>
@@ -225,7 +220,8 @@ var Certifications = function() {
           {issuers.map(function(issuer) {
             return (
               <button key={issuer} onClick={function() { setFilter(issuer); }}
-                className={'px-4 py-2 rounded-xl text-sm font-semibold transition-all ' +
+                aria-pressed={filter === issuer}
+                className={'px-4 py-2.5 rounded-xl text-sm font-semibold transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 ' +
                   (filter === issuer
                     ? 'bg-primary-500/15 text-primary-600 dark:text-primary-400 border border-primary-500/30'
                     : 'bg-surface-800/50 text-surface-500 border border-surface-700/50 hover:text-heading hover:border-surface-600')}>
@@ -249,7 +245,7 @@ var Certifications = function() {
 
         <div className="mt-12 text-center">
           <div className="inline-flex items-center gap-2 px-5 py-3 bg-surface-800/40 border border-surface-700/30 rounded-xl">
-            <svg className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" className="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
             <span className="text-surface-400 text-sm">All certifications are verifiable. Click <strong className="text-heading">Verify</strong> on any card.</span>
